@@ -15,7 +15,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
     const [showKnowledgeBase, setShowKnowledgeBase] = useState(false);
     const [copiedField, setCopiedField] = useState<string | null>(null);
 
-    const photoPath = "/my_photo.png";
+    const photoPath = "my_photo.png";
     const supportEmail = "rabbithole.help@vk.com";
     const inn = "760407796785";
     const ogrnip = "326760000001804";
