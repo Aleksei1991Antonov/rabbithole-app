@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronLeft, Shield, FileText, Mail, Trash2, ExternalLink, Building2, ChevronDown, User, Maximize2, Database, Copy, Check } from 'lucide-react';
+import { ChevronLeft, Shield, FileText, Mail, ExternalLink, Building2, ChevronDown, User, Maximize2, Database, Copy, Check, Share2 } from 'lucide-react';
 import PrivacyPolicy from '../components/PrivacyPolicy';
 import TermsOfService from '../components/TermsOfService';
 import KnowledgeBase from '../components/KnowledgeBase';
@@ -20,11 +20,31 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
     const inn = "760407796785";
     const ogrnip = "326760000001804";
     const address = "Россия г. Ярославль";
+    const shareUrl = "https://aleksei1991antonov.github.io/rabbithole-app/";
 
     const handleCopy = (text: string, fieldId: string) => {
-        navigator.clipboard.writeText(text);
-        setCopiedField(fieldId);
-        setTimeout(() => setCopiedField(null), 1500);
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                setCopiedField(fieldId);
+                setTimeout(() => setCopiedField(null), 1500);
+            })
+            .catch(() => {});
+    };
+
+    const handleShare = async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: 'Кроличья Нора',
+                    text: 'Присоединяйся к исследованию в Кроличьей Норе!',
+                    url: shareUrl,
+                });
+            } catch {
+                handleCopy(shareUrl, 'share');
+            }
+        } else {
+            handleCopy(shareUrl, 'share');
+        }
     };
 
     if (showKnowledgeBase) {
@@ -32,7 +52,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
     }
 
     return (
-        <div className="flex flex-col h-full p-6 space-y-6 animate-in slide-in-from-right-4 duration-500 overflow-y-auto bg-black text-white font-mono relative">
+        <div className="flex flex-col h-full p-6 space-y-6 animate-in slide-in-from-right-4 duration-500 overflow-y-auto bg-black text-white font-mono relative no-scrollbar">
 
             {activeDoc === 'privacy' && <PrivacyPolicy onBack={() => setActiveDoc(null)} />}
             {activeDoc === 'terms' && <TermsOfService onBack={() => setActiveDoc(null)} />}
@@ -60,13 +80,20 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
                 <h2 className="text-2xl font-black uppercase tracking-tighter text-white">Система</h2>
             </div>
 
-            {/* Профиль / ID */}
-            <div className="p-4 border border-white/10 bg-white/5 rounded-[1px] flex justify-between items-center">
+            {/* Рассказать другу */}
+            <div className="p-5 border border-[#00ffcc]/20 bg-white/5 rounded-[1px] flex justify-between items-center group">
                 <div className="space-y-1">
-                    <div className="text-[10px] text-white/40 uppercase tracking-widest">Ваш ID в системе</div>
-                    <div className="text-sm font-bold text-[#00ffcc]">id_demo_user</div>
+                    <div className="text-[10px] text-white/40 uppercase tracking-widest">Поделиться проектом</div>
+                    <div className="text-sm font-bold text-white uppercase tracking-tight">Рассказать другу</div>
                 </div>
-                <div className="px-2 py-1 border border-[#00ffcc]/20 text-[8px] text-[#00ffcc] uppercase">Исследователь</div>
+
+                <button
+                    onClick={handleShare}
+                    className="flex items-center gap-2 px-4 py-2 bg-[#00ffcc] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all active:scale-95"
+                >
+                    {copiedField === 'share' ? <Check size={14} /> : <Share2 size={14} />}
+                    <span>{copiedField === 'share' ? 'Готово' : 'Поделиться'}</span>
+                </button>
             </div>
 
             {/* Раздел: Помощь */}
@@ -207,12 +234,6 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
                 </div>
             </div>
 
-            {/* Удаление аккаунта */}
-            <button className="w-full p-4 border border-red-500/10 hover:bg-red-500/5 flex items-center gap-3 transition-colors rounded-[1px] group">
-                <Trash2 size={18} className="text-red-500/40 group-hover:text-red-500" />
-                <span className="text-xs uppercase tracking-tight text-red-500/40 group-hover:text-red-500">Удалить аккаунт</span>
-            </button>
-
             {/* Футер */}
             <div className="mt-auto pt-10 pb-6 flex flex-col items-center gap-4 border-t border-white/5">
                 <div className="flex items-center gap-2 text-white/60 text-[11px] uppercase tracking-[0.2em] font-bold">
@@ -220,8 +241,8 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
                     <span>Версия 1.0.0-beta</span>
                 </div>
                 <div className="flex flex-col items-center text-center px-4">
-                    <span className="text-[9px] uppercase tracking-[0.25em] text-white/80 font-black leading-relaxed">Система искусственного интеллекта<br />«Кроличья Нора»</span>
-                    <span className="text-[8px] uppercase tracking-[0.4em] text-[#00ffcc]/40 mt-1">на базе ГигаЧат</span>
+                    <span className="text-[9px] uppercase tracking-[0.25em] text-white/80 font-black leading-relaxed">Программный комплекс<br />«Кроличья Нора»</span>
+                    <span className="text-[8px] uppercase tracking-[0.4em] text-[#00ffcc]/40 mt-1">Автономная разработка</span>
                     <span className="text-[8px] uppercase tracking-[0.4em] text-white/20 mt-2">© 2026 Все права защищены</span>
                 </div>
             </div>
