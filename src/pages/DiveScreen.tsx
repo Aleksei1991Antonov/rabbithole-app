@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, AlertTriangle, ChevronUp, ChevronDown, MoveHorizontal, LogOut, Zap, Play } from 'lucide-react';
 // Путь к твоей базе данных на 25 уровней
 import { DIVE_CONTENT } from '../pages/diveData.ts';
-
+// TEST COMMENT 12345
 interface Message {
     role: 'user' | 'assistant' | 'system';
     content: string;
