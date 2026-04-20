@@ -1,5 +1,8 @@
-import { useState } from 'react';
+import { useState } from 'react'; // Удалили useEffect
 import { Home, Zap, Settings } from 'lucide-react';
+
+// ... остальной код без изменений
+
 
 // Компоненты
 import VortexBackground from './components/VortexBackground';
@@ -13,12 +16,29 @@ import SettingsScreen from './pages/SettingsScreen';
 
 type View = 'main' | 'dive' | 'settings';
 
+// Константы для версии соглашения
+const POLICY_VERSION = "1";
+const STORAGE_KEY = 'rabbit_hole_accepted_version';
+
 function App() {
     const [view, setView] = useState<View>('main');
-    const [isAccepted, setIsAccepted] = useState(false);
 
+    // Инициализируем состояние из localStorage сразу
+    const [isAccepted, setIsAccepted] = useState(() => {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        return saved === POLICY_VERSION;
+    });
+
+    // Функция принятия соглашения
+    const handleAccept = () => {
+        console.log("Соглашение принято, версия:", POLICY_VERSION);
+        localStorage.setItem(STORAGE_KEY, POLICY_VERSION);
+        setIsAccepted(true);
+    };
+
+    // Если не принято — показываем WelcomePage
     if (!isAccepted) {
-        return <WelcomePage onAccept={() => setIsAccepted(true)} />;
+        return <WelcomePage onAccept={handleAccept} />;
     }
 
     const isDiveMode = (view as string) === 'dive';
