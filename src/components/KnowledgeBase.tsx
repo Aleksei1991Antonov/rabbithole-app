@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronLeft, BookOpen, Moon, ChevronDown, Search, FileText, Shield, Cpu } from 'lucide-react';
+import { ChevronLeft, Moon, ChevronDown, Search, FileText, Shield, Cpu, Database } from 'lucide-react';
 
 interface KnowledgeBaseProps {
     onBack: () => void;
@@ -16,61 +16,61 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ onBack }) => {
     const categories = [
         {
             id: 'immersion',
-            title: 'Протокол Тишины',
-            description: 'Базовые требования для достижения глубокого резонанса с системой.',
+            title: 'Протокол Погружения',
+            description: 'Создание условий для максимального когнитивного резонанса.',
             icon: <Moon size={18} className="text-[#00ffcc]" />,
             items: [
                 {
-                    q: 'Изоляция звука',
-                    a: 'Для полной деконструкции внешнего шума обязательно использование наушников. Это позволяет аудио-визуальному ряду воздействовать напрямую на когнитивные центры.'
+                    q: 'Отсутствие звукового ряда',
+                    a: 'В текущей версии протокола аудио-визуальный шум минимизирован. Это осознанное решение: тишина заставляет ваш мозг самостоятельно генерировать частоты, необходимые для глубокого трипа.'
                 },
                 {
                     q: 'Режим «Не беспокоить»',
-                    a: 'Входящие уведомления мессенджера MAX могут прервать поток погружения. Активируйте системный режим тишины перед началом сессии.'
+                    a: 'Внешние уведомления — это якоря реальности. Чтобы «Кроличья Нора» не схлопнулась, активируйте режим тишины. Любое прерывание сбивает калибровку системы.'
                 },
                 {
                     q: 'Золотой час',
-                    a: 'Наилучшее время для работы с Норой: 22:00 — 02:00. Когда внешний мир затихает, внутренний голос становится яснее и доступнее для анализа.'
+                    a: 'Наилучшее время для синхронизации: 22:00 — 02:00. В этот период коллективное бессознательное затихает, упрощая доступ к вашему личному ROOT-сектору.'
                 }
             ]
         },
         {
             id: 'navigation',
             title: 'Векторы Движения',
-            description: 'Как управлять направлением диалога и глубиной исследования.',
+            description: 'Механика управления вашим падением.',
             icon: <Cpu size={18} className="text-[#00ffcc]" />,
             items: [
                 {
                     q: 'Вектор: ВГЛУБЬ',
-                    a: 'Основной путь деконструкции. Увеличивает уровень (lvl) погружения, переходя к более сложным и абстрактным концепциям бытия.'
+                    a: 'Прямая деконструкция. Каждый шаг увеличивает уровень на 1.0. Это самый быстрый путь к ядру системы, но и самый энергозатратный для психики.'
                 },
                 {
-                    q: 'Вектор: ВШИРЬ',
-                    a: 'Горизонтальное исследование текущего уровня. Позволяет рассмотреть ситуацию с разных сторон, не увеличивая когнитивную нагрузку.'
+                    q: 'Вектор: ВШИРЬ / ВВЕРХ',
+                    a: 'Дробное исследование. Увеличивает глубину на 0.5. Позволяет собрать больше данных на текущем горизонте событий, не проваливаясь слишком быстро.'
                 },
                 {
-                    q: 'Вектор: ВВЕРХ',
-                    a: 'Процесс постепенной декомпрессии. Используется для мягкого возвращения к реальности и интеграции полученного опыта.'
+                    q: 'Ограничение вектора',
+                    a: 'Система блокирует повторение одного и того же дробного вектора дважды подряд. Это предотвращает зацикливание вашего сознания в одной плоскости.'
                 }
             ]
         },
         {
             id: 'storage',
-            title: 'Память и Данные',
-            description: 'Технические аспекты хранения вашей истории в экосистеме MAX.',
-            icon: <Shield size={18} className="text-[#00ffcc]" />,
+            title: 'Хранение и Память',
+            description: 'Как система оперирует вашими данными и следами.',
+            icon: <Database size={18} className="text-[#00ffcc]" />,
             items: [
                 {
-                    q: 'Где хранятся мои данные?',
-                    a: 'Ваши сессии сохраняются локально в DeviceStorage вашего мессенджера MAX. Мы не передаем тексты ваших размышлений на внешние сервера.'
+                    q: 'Где живет моя история?',
+                    a: 'Данные записываются: LocalStorage (быстрый доступ на устройстве) и DeviceStorage (привязка к вашему ID в мессенджере). Это гарантирует, что Нора «узнает» вас при следующем визите.'
                 },
                 {
-                    q: 'Как стереть историю?',
-                    a: 'Для полной очистки памяти используйте кнопку «Завершить и стереть» в меню выхода. Это безвозвратно удалит текущий слепок сессии с устройства.'
+                    q: 'Как удалить аккаунт?',
+                    a: 'Просто удалите бота из вашего списка контактов.'
                 },
                 {
-                    q: 'Синхронизация',
-                    a: 'В текущей версии (v1.0.0-beta) данные привязаны к конкретному устройству. При удалении мессенджера MAX локальное хранилище будет очищено.'
+                    q: 'Конфиденциальность',
+                    a: 'Ваши ответы не анализируются людьми. Они существуют только в виде временных векторов для генерации следующего шага. После закрытия цикла сессия архивируется в пустоту.'
                 }
             ]
         }
@@ -94,7 +94,7 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ onBack }) => {
                     </button>
                     <h2 className="text-xl font-black uppercase tracking-widest text-white leading-none">Архив Данных</h2>
                 </div>
-                <BookOpen size={20} className="text-[#00ffcc]/40" />
+                <Shield size={20} className="text-[#00ffcc]/40" />
             </div>
 
             {/* Поиск */}
@@ -102,7 +102,7 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ onBack }) => {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#00ffcc]/40" size={16} />
                 <input
                     type="text"
-                    placeholder="ПОИСК ПО ПРОТОКОЛАМ..."
+                    placeholder="ДОСТУП К ПРОТОКОЛАМ..."
                     className="w-full bg-white/5 border border-white/10 py-3 pl-10 pr-4 text-[10px] uppercase tracking-widest focus:border-[#00ffcc]/50 outline-none transition-all placeholder:text-white/10 rounded-[1px]"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -150,7 +150,7 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ onBack }) => {
                                         <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
                                             isOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
                                         }`}>
-                                            <div className="p-4 text-[10px] leading-relaxed text-white/40 uppercase tracking-tight bg-black/40">
+                                            <div className="p-4 text-[10px] leading-relaxed text-white/40 uppercase tracking-tight bg-black/40 border-t border-white/5">
                                                 {item.a}
                                             </div>
                                         </div>
@@ -165,7 +165,7 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ onBack }) => {
             {/* Футер */}
             <div className="shrink-0 pt-4 border-t border-white/5 text-center">
                 <p className="text-[8px] text-white/20 uppercase tracking-[0.3em]">
-                    Система: Кроличья Нора // v1.1.0-max
+                    Система: Кроличья Нора // v1.1.0-MAX
                 </p>
             </div>
         </div>

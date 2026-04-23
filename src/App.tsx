@@ -1,8 +1,5 @@
-import { useState } from 'react'; // Удалили useEffect
+import { useState, useEffect } from 'react';
 import { Home, Zap, Settings } from 'lucide-react';
-
-// ... остальной код без изменений
-
 
 // Компоненты
 import VortexBackground from './components/VortexBackground';
@@ -16,27 +13,34 @@ import SettingsScreen from './pages/SettingsScreen';
 
 type View = 'main' | 'dive' | 'settings';
 
-// Константы для версии соглашения
-const POLICY_VERSION = "1";
+const POLICY_VERSION = 1;
 const STORAGE_KEY = 'rabbit_hole_accepted_version';
 
 function App() {
     const [view, setView] = useState<View>('main');
 
-    // Инициализируем состояние из localStorage сразу
+    // Эффект для перекраски системной шапки при загрузке
+    useEffect(() => {
+        const head = document.getElementsByTagName('head')[0];
+        const metaColor = document.createElement('meta');
+        metaColor.name = "theme-color";
+        metaColor.content = "#000000";
+        head.appendChild(metaColor);
+
+        document.documentElement.style.backgroundColor = "#000000";
+        document.body.style.backgroundColor = "#000000";
+    }, []);
+
     const [isAccepted, setIsAccepted] = useState(() => {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        return saved === POLICY_VERSION;
+        const savedVersion = localStorage.getItem(STORAGE_KEY);
+        return savedVersion === POLICY_VERSION.toString();
     });
 
-    // Функция принятия соглашения
     const handleAccept = () => {
-        console.log("Соглашение принято, версия:", POLICY_VERSION);
-        localStorage.setItem(STORAGE_KEY, POLICY_VERSION);
+        localStorage.setItem(STORAGE_KEY, POLICY_VERSION.toString());
         setIsAccepted(true);
     };
 
-    // Если не принято — показываем WelcomePage
     if (!isAccepted) {
         return <WelcomePage onAccept={handleAccept} />;
     }
@@ -47,13 +51,16 @@ function App() {
         <div className="relative h-screen w-full text-[#cccccc] overflow-hidden font-sans bg-transparent">
 
             {/* ФОН FIXED */}
-            <div className="fixed inset-0 z-[-1] bg-[#020202] pointer-events-none">
+            <div className="fixed inset-0 z-0 bg-[#020202] pointer-events-none">
                 <VortexBackground />
-                {(view as string) === 'main' && (
+
+                {/* ГИПНОЗ ТОЛЬКО НА ГЛАВНОЙ */}
+                {view === 'main' && (
                     <div className="absolute inset-0 opacity-80 animate-in fade-in duration-1000">
                         <HypnoticVortex />
                     </div>
                 )}
+
                 <div className="absolute inset-0 shadow-[inset_0_0_150px_rgba(0,0,0,1)]" />
             </div>
 

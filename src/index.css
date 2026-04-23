@@ -1,7 +1,15 @@
 @import "tailwindcss";
 
-body {
+/* Красим абсолютно всё в черный, чтобы у WebView не было шансов */
+html, body {
   margin: 0;
-  background-color: #050505;
+  padding: 0;
+  background-color: #000000 !important; /* Чистый черный */
   color: white;
+  /* Убираем лишние отступы, которые могут оголять фон WebView */
+  min-height: 100vh;
+  width: 100%;
+}
+:root {
+  color-scheme: dark; /* Принудительно сообщает браузеру, что страница только темная */
 }

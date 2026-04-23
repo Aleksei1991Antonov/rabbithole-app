@@ -1,25 +1,16 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Zap, BookOpen, Moon, Headphones, Smartphone, Sparkles, Wind, LogOut, Info, ShieldCheck, Terminal, Fingerprint, Heart } from 'lucide-react';
+import React, { useState } from 'react';
+import { Zap, BookOpen, Moon, Headphones, Smartphone, Sparkles, Wind, LogOut, Info, ShieldCheck, Terminal, Fingerprint } from 'lucide-react';
 
-// Описываем интерфейс моста без использования any
-interface MaxWebApp {
-    platform?: string;
+// Описываем интерфейс моста строго, чтобы линтер не ругался на any
+interface WebAppBridge {
     HapticFeedback?: {
         impactOccurred: (style: 'light' | 'medium' | 'heavy' | 'rigid' | 'soft') => void;
-        notificationOccurred: (type: 'error' | 'success' | 'warning') => void;
     };
-    BackButton?: {
-        show: () => void;
-        hide: () => void;
-        onClick: (cb: () => void) => void;
-        offClick: (cb: () => void) => void;
-    };
-    openLink: (url: string) => void;
 }
 
 declare global {
     interface Window {
-        WebApp?: MaxWebApp;
+        WebApp?: WebAppBridge;
     }
 }
 
@@ -35,8 +26,6 @@ interface DiveOverlaysProps {
     onCancelExit: () => void;
 }
 
-const SUPPORT_URL = "https://yoomoney.ru/fundraise/1H8OQHE6EJA.260420";
-
 const DiveOverlays: React.FC<DiveOverlaysProps> = ({
                                                        showConfirmDive,
                                                        showInstruction,
@@ -50,51 +39,12 @@ const DiveOverlays: React.FC<DiveOverlaysProps> = ({
                                                    }) => {
     const [showAbout, setShowAbout] = useState(false);
 
-    // Функция возврата из режима оплаты
-    const handleBackFromSupport = useCallback(() => {
-        if (window.WebApp?.BackButton) {
-            window.WebApp.BackButton.hide();
-            window.WebApp.BackButton.offClick(() => {});
-        }
-        onCancelDive();
-    }, [onCancelDive]);
-
-    // Обработчик доната
-    const handleSupportClick = () => {
-        // Проверяем, реально ли мы в приложении (платформа не unknown и не пустая)
-        const isActualApp = window.WebApp?.platform && window.WebApp.platform !== 'unknown';
-
-        if (isActualApp && window.WebApp?.openLink) {
-            try {
-                window.WebApp.HapticFeedback?.impactOccurred('medium');
-                window.WebApp.BackButton?.show();
-                window.WebApp.BackButton?.onClick(handleBackFromSupport);
-                window.WebApp.openLink(SUPPORT_URL);
-                return; // Выходим, если открыли через WebApp
-            } catch (e) {
-                console.warn("WebApp openLink failed", e);
-            }
-        }
-
-        // Если мы в браузере или WebApp подвел - просто уходим по ссылке
-        window.location.href = SUPPORT_URL;
-    };
-
-    useEffect(() => {
-        return () => {
-            if (window.WebApp?.BackButton) {
-                window.WebApp.BackButton.offClick(handleBackFromSupport);
-                window.WebApp.BackButton.hide();
-            }
-        };
-    }, [handleBackFromSupport]);
-
     if (!showConfirmDive && !showInstruction && !showConfirmExit) return null;
 
     return (
         <div className="absolute inset-0 z-[100] flex items-center justify-center p-6 bg-black/95 backdrop-blur-xl animate-in fade-in duration-300">
 
-            {/* ОКНО ОПЛАТЫ И ВЫБОРА */}
+            {/* ГЛАВНОЕ ОКНО ВЫБОРА */}
             {showConfirmDive && !showInstruction && !showAbout && (
                 <div className="w-full max-w-xs border border-[#00ffcc]/30 bg-[#00ffcc]/5 p-8 space-y-8 rounded-[1px] animate-in zoom-in-95 duration-300">
                     <div className="flex flex-col items-center text-center space-y-4">
@@ -119,25 +69,17 @@ const DiveOverlays: React.FC<DiveOverlaysProps> = ({
                             Начать путешествие
                         </button>
 
-                        <button
-                            onClick={handleSupportClick}
-                            className="w-full py-4 bg-white/5 border border-[#00ffcc]/40 text-[#00ffcc] text-[9px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2 active:bg-[#00ffcc]/10 transition-colors"
-                        >
-                            <Heart size={12} className="fill-[#00ffcc]/20" />
-                            Поддержать проект
-                        </button>
-
                         <div className="grid grid-cols-2 gap-2">
                             <button
                                 onClick={onOpenInstruction}
-                                className="py-4 bg-white/5 border border-white/10 text-white text-[9px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2"
+                                className="py-4 bg-white/5 border border-white/10 text-white text-[9px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2 active:bg-white/10 transition-colors"
                             >
                                 <BookOpen size={12} />
                                 Инструкция
                             </button>
                             <button
                                 onClick={() => setShowAbout(true)}
-                                className="py-4 bg-white/5 border border-white/10 text-white text-[9px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2"
+                                className="py-4 bg-white/5 border border-white/10 text-white text-[9px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2 active:bg-white/10 transition-colors"
                             >
                                 <Info size={12} />
                                 Суть
@@ -147,14 +89,14 @@ const DiveOverlays: React.FC<DiveOverlaysProps> = ({
                         <div className="pt-4 space-y-2 text-center border-t border-white/5">
                             <div className="flex items-center justify-center gap-1.5 text-white/30">
                                 <ShieldCheck size={10} />
-                                <span className="text-[7px] uppercase tracking-widest font-bold">Версия: 1.0.0-beta</span>
+                                <span className="text-[7px] uppercase tracking-widest font-bold">Система: v1.0.0-beta</span>
                             </div>
-                            <p className="text-[7px] text-white/20 leading-relaxed uppercase tracking-[0.1em]">
-                                Ваша поддержка помогает нам развивать систему
+                            <p className="text-[7px] text-[#00ffcc]/40 leading-relaxed uppercase tracking-[0.15em] font-medium">
+                                Обнаружен активный нейропрофиль
                             </p>
                         </div>
 
-                        <button onClick={onCancelDive} className="w-full py-2 text-zinc-600 text-[9px] font-bold uppercase tracking-[0.2em]">
+                        <button onClick={onCancelDive} className="w-full py-2 text-zinc-600 text-[9px] font-bold uppercase tracking-[0.2em] active:text-zinc-400 transition-colors">
                             Отмена
                         </button>
                     </div>
@@ -177,7 +119,7 @@ const DiveOverlays: React.FC<DiveOverlaysProps> = ({
                                 <span className="text-[9px] font-black uppercase tracking-[0.2em]">Уникальность</span>
                             </div>
                             <p className="text-[8px] text-white/50 leading-relaxed uppercase tracking-widest">
-                                Каждое погружение становится уникальным <span className="text-white">благодаря вашим решениям</span>. Выбирая вектор, вы создаете одну из <span className="text-white font-bold">205 триллионов</span> возможных версий этой истории.
+                                Каждое погружение становится уникальным <span className="text-white">благодаря вашим решениям</span>. Выбирая вектор, вы создаете одну из <span className="text-white font-bold">более 300 триллионов</span> возможных версий этой истории.
                             </p>
                         </div>
                         <p>Мы пройдем через инстинкты ДНК, холодный блеск квантовых частиц и тишину цифрового абсолюта.</p>
@@ -185,7 +127,7 @@ const DiveOverlays: React.FC<DiveOverlaysProps> = ({
                             «Вы не читаете эту историю. Вы становитесь её единственным автором, выбирая вектор движения в пустоте».
                         </p>
                     </div>
-                    <button onClick={() => setShowAbout(false)} className="w-full py-4 bg-[#00ffcc]/10 border border-[#00ffcc]/40 text-[#00ffcc] text-[10px] font-black uppercase tracking-[0.2em]">
+                    <button onClick={() => setShowAbout(false)} className="w-full py-4 bg-[#00ffcc]/10 border border-[#00ffcc]/40 text-[#00ffcc] text-[10px] font-black uppercase tracking-[0.2em] active:bg-[#00ffcc]/20 transition-colors">
                         Вернуться к активации
                     </button>
                 </div>
@@ -225,7 +167,7 @@ const DiveOverlays: React.FC<DiveOverlaysProps> = ({
                             <span className="text-[9px] uppercase tracking-wider leading-relaxed">Сделайте 3 глубоких вдоха перед стартом.</span>
                         </div>
                     </div>
-                    <button onClick={onCloseInstruction} className="w-full py-4 border border-[#00ffcc]/40 text-[#00ffcc] text-[10px] font-black uppercase tracking-[0.2em] active:bg-[#00ffcc]/10">
+                    <button onClick={onCloseInstruction} className="w-full py-4 border border-[#00ffcc]/40 text-[#00ffcc] text-[10px] font-black uppercase tracking-[0.2em] active:bg-[#00ffcc]/10 transition-colors">
                         Я всё понял(а)
                     </button>
                 </div>
@@ -243,7 +185,7 @@ const DiveOverlays: React.FC<DiveOverlaysProps> = ({
                         <button onClick={onConfirmExit} className="w-full py-4 bg-white/5 border border-white/20 text-white/80 text-[10px] font-black uppercase tracking-[0.2em] active:scale-95 transition-all">
                             Завершить
                         </button>
-                        <button onClick={onCancelExit} className="w-full py-2 text-zinc-600 text-[9px] font-bold uppercase tracking-[0.2em]">
+                        <button onClick={onCancelExit} className="w-full py-2 text-zinc-600 text-[9px] font-bold uppercase tracking-[0.2em] active:text-zinc-400 transition-colors">
                             Вернуться
                         </button>
                     </div>

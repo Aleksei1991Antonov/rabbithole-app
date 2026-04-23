@@ -15,12 +15,12 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
     const [showKnowledgeBase, setShowKnowledgeBase] = useState(false);
     const [copiedField, setCopiedField] = useState<string | null>(null);
 
-    const photoPath = "my_photo.png";
+    const photoPath = "my-photo.webp";
     const supportEmail = "rabbithole.help@vk.com";
     const inn = "760407796785";
     const ogrnip = "326760000001804";
     const address = "Россия г. Ярославль";
-    const shareUrl = "https://aleksei1991antonov.github.io/rabbithole-app/";
+    const shareUrl = "https://max.ru/id760407796785_bot";
 
     const handleCopy = (text: string, fieldId: string) => {
         navigator.clipboard.writeText(text)
@@ -36,7 +36,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
             try {
                 await navigator.share({
                     title: 'Кроличья Нора',
-                    text: 'Присоединяйся к исследованию в Кроличьей Норе!',
+                    text: 'Интеллектуальное путешествие',
                     url: shareUrl,
                 });
             } catch {
