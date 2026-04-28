@@ -1,15 +1,63 @@
 @import "tailwindcss";
 
-/* Красим абсолютно всё в черный, чтобы у WebView не было шансов */
 html, body {
   margin: 0;
   padding: 0;
-  background-color: #000000 !important; /* Чистый черный */
+  /* Черный фон - база для всех слоев */
+  background-color: #000000 !important;
   color: white;
-  /* Убираем лишние отступы, которые могут оголять фон WebView */
   min-height: 100vh;
   width: 100%;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
-:root {
-  color-scheme: dark; /* Принудительно сообщает браузеру, что страница только темная */
+
+/* ИСПРАВЛЕННЫЙ БЛЮР: ГЛАССМОРФИЗМ (ВИДИМОСТЬ СКВОЗЬ КНОПКИ) */
+.backdrop-blur-fix {
+  /* 1. Префиксы для Safari/iOS/Max App */
+  -webkit-backdrop-filter: blur(4px) saturate(150%) !important;
+  backdrop-filter: blur(4px) saturate(150%) !important;
+
+  /* 2. Светлая подложка (0.03) вместо черной, чтобы видеть HypnoticVortex */
+  background-color: rgba(255, 255, 255, 0.03) !important;
+
+  /* 3. Тонкая бирюзовая граница */
+  border: 1px solid rgba(0, 255, 204, 0.2) !important;
+
+  /* 4. Оптимизация для GPU (убирает мерцание при скролле/анимации) */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* На ПК делаем чуть более выраженным, но сохраняем прозрачность */
+@media (min-width: 1024px) {
+  .backdrop-blur-fix {
+    -webkit-backdrop-filter: blur(8px) !important;
+    backdrop-filter: blur(8px) !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+  }
+}
+
+/* Чтобы канвас (Матрица) не мерцал и не тормозил систему */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* Контент всегда выше матрицы и вихрей */
+main, .content-layer {
+  position: relative;
+  z-index: 10;
+  /* Убеждаемся, что у main нет своего фона, перекрывающего вихри */
+  background: transparent !important;
+}
+
+/* Убираем системные выделения при тапах на мобилках */
+button, a {
+  -webkit-tap-highlight-color: transparent;
 }

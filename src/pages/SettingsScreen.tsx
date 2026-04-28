@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronLeft, Shield, FileText, Mail, ExternalLink, Building2, ChevronDown, User, Maximize2, Database, Copy, Check, Share2 } from 'lucide-react';
+import { ChevronLeft, Shield, FileText, Mail, ExternalLink, Building2, ChevronDown, User, Maximize2, Database, Copy, Check, Share2, Heart } from 'lucide-react';
 import PrivacyPolicy from '../components/PrivacyPolicy';
 import TermsOfService from '../components/TermsOfService';
 import KnowledgeBase from '../components/KnowledgeBase';
@@ -21,6 +21,9 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
     const ogrnip = "326760000001804";
     const address = "Россия г. Ярославль";
     const shareUrl = "https://max.ru/id760407796785_bot";
+    const donatePageUrl = "https://yoomoney.ru/fundraise/1H8OQHE6EJA.260420"; // Страница сбора
+    const directWalletUrl = "https://yoomoney.ru/to/410013747932221";        // Прямой перевод
+
 
     const handleCopy = (text: string, fieldId: string) => {
         navigator.clipboard.writeText(text)
@@ -52,10 +55,9 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
     }
 
     return (
-        <div className="flex flex-col h-full p-6 space-y-6 animate-in slide-in-from-right-4 duration-500 overflow-y-auto bg-black text-white font-mono relative no-scrollbar">
+        <div className="flex flex-col h-full p-6 space-y-6 animate-in slide-in-from-right-4 duration-500 overflow-y-auto bg-transparent text-white font-mono relative no-scrollbar">
 
-            {activeDoc === 'privacy' && <PrivacyPolicy onBack={() => setActiveDoc(null)} />}
-            {activeDoc === 'terms' && <TermsOfService onBack={() => setActiveDoc(null)} />}
+
 
             {isPhotoModalOpen && (
                 <div
@@ -228,6 +230,37 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
                                         </button>
                                     </div>
                                 </div>
+                                {/* СТРОКА DONATE: ПЕРЕХОД НА СБОР / КОПИРОВАНИЕ ПРЯМОЙ ССЫЛКИ */}
+                                <div className="flex justify-between items-center pt-2 border-t border-white/10 group">
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-[8px] text-white/30 uppercase font-bold">Donate</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        {/* Клик по тексту открывает страницу сбора */}
+                                        <a
+                                            href={donatePageUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-[10px] text-[#00ffcc] font-bold tracking-tighter hover:text-white transition-colors flex items-center gap-1"
+                                        >
+                                            <Heart size={10} className="text-[#00ffcc] fill-[#00ffcc]/20 animate-pulse" />
+                                            ЮMoney
+                                            <ExternalLink size={10} className="opacity-50" />
+                                        </a>
+                                        {/* Клик по иконке копирует ПРЯМУЮ ссылку на кошелек */}
+                                        <button
+                                            onClick={() => handleCopy(directWalletUrl, 'donate')}
+                                            className="text-[#00ffcc] hover:text-white transition-colors ml-1 p-1"
+                                            title="Копировать прямую ссылку на кошелек"
+                                        >
+                                            {copiedField === 'donate' ? (
+                                                <Check size={12} />
+                                            ) : (
+                                                <Copy size={12} className="opacity-30" />
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -240,12 +273,20 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
                     <span className="w-1 h-1 bg-[#00ffcc] animate-pulse"></span>
                     <span>Версия 1.0.0-beta</span>
                 </div>
-                <div className="flex flex-col items-center text-center px-4">
+                <div className="h-[120px] flex flex-col items-center text-center px-4">
                     <span className="text-[9px] uppercase tracking-[0.25em] text-white/80 font-black leading-relaxed">Программный комплекс<br />«Кроличья Нора»</span>
                     <span className="text-[8px] uppercase tracking-[0.4em] text-[#00ffcc]/40 mt-1">Автономная разработка</span>
                     <span className="text-[8px] uppercase tracking-[0.4em] text-white/20 mt-2">© 2026 Все права защищены</span>
                 </div>
             </div>
+            {/* Документы вынесены в конец, чтобы перекрывать всё */}
+            {activeDoc && (
+                <div className="fixed inset-0 z-[9999] bg-black h-screen w-screen">
+                    {activeDoc === 'privacy' && <PrivacyPolicy onBack={() => setActiveDoc(null)} />}
+                    {activeDoc === 'terms' && <TermsOfService onBack={() => setActiveDoc(null)} />}
+                </div>
+            )}
+
         </div>
     );
 };

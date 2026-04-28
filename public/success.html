@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>СИСТЕМА: ДОСТУП</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00ffcc;
+            font-family: monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-transform: uppercase;
+            text-align: center;
+        }
+        .container {
+            border: 1px solid rgba(0, 255, 204, 0.3);
+            padding: 40px 20px;
+            border-radius: 1px;
+            background: black;
+            max-width: 280px;
+        }
+        .icon {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 14px;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            font-weight: 900;
+        }
+        p {
+            font-size: 9px;
+            color: rgba(0, 255, 204, 0.5);
+            letter-spacing: 1px;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .divider {
+            width: 40px;
+            height: 1px;
+            background: rgba(0, 255, 204, 0.3);
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="icon">✓</div>
+    <h1>ОПЛАТА ПРИНЯТА</h1>
+    <div class="divider"></div>
+    <p>ПРОТОКОЛ АКТИВИРОВАН.<br><br>ВЕРНИТЕСЬ В MAX МЕССЕНДЖЕР,<br>ЧТОБЫ ПРОДОЛЖИТЬ ПОГРУЖЕНИЕ.<br>ЭТО ОКНО МОЖНО ЗАКРЫТЬ</p>
+</div>
+
+<script>
+    setTimeout(() => {
+        window.close();
+    }, 4000);
+</script>
+</body>
+</html>

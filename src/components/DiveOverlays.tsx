@@ -112,7 +112,7 @@ const DiveOverlays: React.FC<DiveOverlaysProps> = ({
                         <h1 className="text-lg font-black uppercase text-white tracking-tighter">Суть протокола</h1>
                     </div>
                     <div className="space-y-4 text-[10px] text-white/60 leading-relaxed uppercase tracking-widest">
-                        <p>Это <span className="text-white font-bold">цифровой галлюциноген</span> для тех, кто устал от простых ответов. 30 шагов, которые вывернут привычное понимание «любви» наизнанку.</p>
+                        <p>Это <span className="text-white font-bold">цифровой галлюциноген</span> для тех, кто устал от простых ответов. ~80 шагов, которые вывернут привычное понимание «любви» наизнанку.</p>
                         <div className="p-3 bg-[#00ffcc]/5 border border-[#00ffcc]/20 rounded-sm space-y-2">
                             <div className="flex items-center gap-2 text-[#00ffcc]">
                                 <Fingerprint size={14} />

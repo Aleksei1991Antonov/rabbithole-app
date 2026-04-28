@@ -19,7 +19,6 @@ const STORAGE_KEY = 'rabbit_hole_accepted_version';
 function App() {
     const [view, setView] = useState<View>('main');
 
-    // Эффект для перекраски системной шапки при загрузке
     useEffect(() => {
         const head = document.getElementsByTagName('head')[0];
         const metaColor = document.createElement('meta');
@@ -53,19 +52,16 @@ function App() {
             {/* ФОН FIXED */}
             <div className="fixed inset-0 z-0 bg-[#020202] pointer-events-none">
                 <VortexBackground />
-
-                {/* ГИПНОЗ ТОЛЬКО НА ГЛАВНОЙ */}
                 {view === 'main' && (
                     <div className="absolute inset-0 opacity-80 animate-in fade-in duration-1000">
                         <HypnoticVortex />
                     </div>
                 )}
-
                 <div className="absolute inset-0 shadow-[inset_0_0_150px_rgba(0,0,0,1)]" />
             </div>
 
-            {/* КОНТЕНТ */}
-            <main className={`relative z-10 h-full w-full overflow-hidden bg-transparent transition-all duration-500 ${isDiveMode ? 'pb-0' : 'pb-[90px]'}`}>
+            {/* КОНТЕНТ - УБРАЛИ pb-[90px], чтобы контент заходил ПОД навигацию */}
+            <main className="relative z-10 h-full w-full overflow-hidden bg-transparent transition-all duration-500">
                 {view === 'main' && <MainScreen onStart={() => setView('dive')} />}
                 {view === 'dive' && <DiveScreen onBack={() => setView('main')} />}
                 {view === 'settings' && <SettingsScreen onBack={() => setView('main')} />}

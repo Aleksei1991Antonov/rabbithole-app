@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronLeft, FileText, AlertTriangle, Heart } from 'lucide-react';
+import { ChevronLeft, FileText, AlertTriangle, Key, ShieldCheck } from 'lucide-react';
 
 interface TermsOfServiceProps {
     onBack: () => void;
@@ -7,7 +7,7 @@ interface TermsOfServiceProps {
 
 const TermsOfService: React.FC<TermsOfServiceProps> = ({ onBack }) => {
     return (
-        <div className="fixed inset-0 z-[250] bg-black text-white font-mono flex flex-col animate-in slide-in-from-right duration-300 pt-16">
+        <div className="fixed inset-0 z-[9999] bg-black text-white font-mono flex flex-col animate-in slide-in-from-right duration-300 overflow-hidden">
 
             {/* Шапка документа */}
             <div className="p-6 border-b border-white/10 bg-black/80 backdrop-blur-md sticky top-0 z-10 flex items-center gap-4">
@@ -18,83 +18,88 @@ const TermsOfService: React.FC<TermsOfServiceProps> = ({ onBack }) => {
                     <ChevronLeft size={20} className="text-[#00ffcc]" />
                 </button>
                 <div>
-                    <h2 className="text-sm font-black uppercase tracking-tighter">Пользовательское соглашение</h2>
-                    <p className="text-[9px] text-white/40 uppercase tracking-widest mt-0.5">Редакция: 20.04.2026</p>
+                    <h2 className="text-sm font-black uppercase tracking-tighter text-[#00ffcc]">Пользовательское соглашение</h2>
+                    <p className="text-[9px] text-white/40 uppercase tracking-widest mt-0.5">Редакция: 28.04.2026</p>
                 </div>
             </div>
 
             {/* Основная часть документа */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-8 pb-20 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-6 space-y-8 pb-40 custom-scrollbar">
 
-                {/* Раздел 1: Общие положения */}
+                {/* Раздел 1: Реквизиты */}
                 <section className="space-y-3">
                     <div className="flex items-center gap-2 text-[#00ffcc]">
                         <FileText size={14} />
                         <span className="text-[10px] font-black uppercase tracking-widest">01. Общие положения</span>
                     </div>
                     <div className="text-[11px] leading-relaxed text-white/60 space-y-2 uppercase">
-                        <p>1.1. Настоящее Пользовательское соглашение регулирует отношения между Владельцем Приложения и Пользователем при использовании Приложения <span className="text-white font-bold">«Кроличья Нора»</span>.</p>
-                        <p>1.2. Использование Приложения означает полное и безоговорочное принятие условий настоящего Соглашения.</p>
-                        <p>1.3. Настоящее Соглашение действует совместно с <span className="text-[#00ffcc]">Политикой конфиденциальности</span>, размещённой по адресу: <span className="text-white">внутри данного приложения</span>. Использование Приложения означает согласие с обоими документами.</p>
-                        <p className="p-3 border border-white/5 bg-white/5 text-[10px]">
-                            <span className="text-[#00ffcc] block mb-1 font-bold italic">Владелец Приложения:</span><br/>
+                        <p>1.1. Настоящее Соглашение регулирует отношения между Владельцем и Пользователем Приложения <span className="text-white font-bold">«Кроличья Нора»</span>.</p>
+                        <p>1.2. Использование Приложения означает полное принятие условий настоящего Соглашения и Политики конфиденциальности.</p>
+                        <div className="p-3 border border-white/5 bg-white/5 text-[10px] mt-2">
+                            <span className="text-[#00ffcc] block mb-1 font-bold italic">Владелец Приложения:</span>
                             ИП АНТОНОВ АЛЕКСЕЙ ОЛЕГОВИЧ<br/>
                             ИНН: 760407796785<br/>
                             ОГРНИП: 326760000001804<br/>
                             Адрес: Россия, город Ярославль
-                        </p>
+                        </div>
                     </div>
                 </section>
 
-                {/* Раздел 2: Предмет соглашения */}
+                {/* Раздел 2: Предмет */}
                 <section className="space-y-3">
                     <div className="flex items-center gap-2 text-[#00ffcc]">
-                        <FileText size={14} />
+                        <ShieldCheck size={14} />
                         <span className="text-[10px] font-black uppercase tracking-widest">02. Предмет соглашения</span>
                     </div>
-                    <div className="text-[11px] leading-relaxed text-white/60 uppercase">
-                        <p>Приложение является интерактивным художественным произведением, предоставляющим Пользователю доступ к текстовому и визуальному контенту в формате нелинейного повествования.</p>
+                    <div className="text-[11px] leading-relaxed text-white/60 space-y-2 uppercase">
+                        <p>2.1. Приложение является интерактивным художественным произведением.</p>
+                        <p>2.2. Владелец предоставляет Пользователю свободный (бесплатный) доступ к начальным этапам произведения (до 30 уровня включительно) для ознакомления с качеством и форматом контента.</p>
+                        <p>2.3. Доступ к последующим этапам и полному функционалу произведения предоставляется на условиях платной неисключительной лицензии.</p>
                     </div>
                 </section>
 
-                {/* Раздел 3: Поддержка проекта (Донаты) */}
+
+                {/* Раздел 3: Техническая реализация доступа */}
                 <section className="space-y-3">
                     <div className="flex items-center gap-2 text-[#00ffcc]">
-                        <Heart size={14} />
-                        <span className="text-[10px] font-black uppercase tracking-widest">03. Поддержка проекта</span>
+                        <Key size={14} />
+                        <span className="text-[10px] font-black uppercase tracking-widest">03. Порядок доступа и оплата</span>
                     </div>
                     <div className="text-[11px] leading-relaxed text-white/60 space-y-3 uppercase">
-                        <p>3.1. Пользователь имеет возможность совершить добровольное пожертвование (донат) в пользу Владельца для поддержки развития проекта.</p>
+                        <p>3.1. Полный доступ к контенту предоставляется после совершения единоразового платежа через защищенный шлюз <span className="text-white font-bold">ЮKASSA</span>.</p>
+
                         <div className="p-3 border border-[#00ffcc]/20 bg-[#00ffcc]/5 text-[10px]">
-                            3.2. Пожертвование является безвозмездным и добровольным действием Пользователя. Совершение пожертвования не является покупкой товара или услуги и не подлежит возврату.
+                            3.2. <span className="text-[#00ffcc]">ТЕХНИЧЕСКАЯ ОСОБЕННОСТЬ:</span> После подтверждения оплаты цифровой ключ доступа записывается ПРЯМО в защищенное локальное хранилище устройства (<span className="text-white font-bold">DeviceStorage / LocalStorage</span>).
                         </div>
-                        <p>3.3. Перевод средств осуществляется через внешние платежные сервисы (ЮMoney). Владелец Приложения не собирает и не хранит данные банковских карт Пользователей.</p>
+
+                        <p>3.3. Владелец не хранит ключи доступа на внешних серверах. Доступ является бессрочным и привязан к локальным данным приложения на устройстве Пользователя.</p>
+
+                        <p>3.4. В соответствии с законодательством РФ (ст. 26.1 Закона о защите прав потребителей), возврат денежных средств за цифровой контент после предоставления доступа не производится.</p>
                     </div>
                 </section>
 
-                {/* Раздел 4: Ограничения и контент 18+ */}
+                {/* Раздел 4: 18+ */}
                 <section className="space-y-3">
                     <div className="flex items-center gap-2 text-[#00ffcc]">
                         <AlertTriangle size={14} />
-                        <span className="text-[10px] font-black uppercase tracking-widest">04. Возрастные ограничения и контент</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest">04. Возрастные ограничения</span>
                     </div>
                     <div className="text-[11px] leading-relaxed text-white/60 uppercase space-y-2">
-                        <p>4.1. Приложение содержит контент, предназначенный исключительно для лиц старше 18 лет, включая философские размышления, абстрактные образы и элементы, которые могут носить провокационный или психологически интенсивный характер.</p>
-                        <p>4.2. Используя Приложение, Пользователь подтверждает, что ему исполнилось 18 лет и он добровольно ознакомился с контентом. Владелец не несёт ответственности за субъективное эмоциональное или психологическое восприятие контента.</p>
-                        <p>4.3. Использование Приложения лицами младше 18 лет запрещено. В случае выявления нарушения Владелец вправе ограничить доступ к Приложению.</p>
+                        <p>4.1. Приложение содержит контент, предназначенный для лиц старше 18 лет. Используя Приложение, Пользователь подтверждает свой возраст.</p>
+                        <p>4.2. Владелец не несёт ответственности за субъективное психологическое восприятие художественных образов и текстов Приложения.</p>
                     </div>
                 </section>
 
-                {/* Раздел 5: Персональные данные */}
+                {/* Раздел 5: Ответственность */}
                 <section className="space-y-3">
                     <div className="flex items-center gap-2 text-[#00ffcc]">
                         <AlertTriangle size={14} />
-                        <span className="text-[10px] font-black uppercase tracking-widest">05. Персональные данные</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest">05. Ответственность и данные</span>
                     </div>
                     <div className="text-[11px] leading-relaxed text-white/60 space-y-2 uppercase">
-                        <p>5.1. Приложение не собирает и не хранит персональные данные Пользователя на серверах Владельца. Все данные (прогресс, выборы) хранятся исключительно локально на устройстве Пользователя.</p>
-                        <p>5.2. При совершении доната обработка платежных данных осуществляется исключительно внешним сервисом (ЮMoney). Владелец Приложения не получает доступ к данным банковских карт, паспортным данным и иной платежной информации.</p>
-                        <p>5.3. Пользователь вправе в любое время запросить информацию о своих данных или их удаление, обратившись по адресу rabbithole.help@vk.com. Удаление локальных данных осуществляется самим Пользователем через очистку кэша приложения или мессенджера.</p>
+                        <p>5.1. Приложение предоставляется по принципу «КАК ЕСТЬ» (as is).</p>
+                        <p>5.2. Весь игровой прогресс и статус доступа хранятся локально. Владелец не несет ответственности за потерю доступа в случае очистки кэша, удаления данных приложения или смены устройства Пользователем.</p>
+                        <p>5.3. По вопросам технической поддержки: <span className="text-white">rabbithole.help@vk.com</span></p>
                     </div>
                 </section>
 
@@ -105,44 +110,16 @@ const TermsOfService: React.FC<TermsOfServiceProps> = ({ onBack }) => {
                         <span className="text-[10px] font-black uppercase tracking-widest">06. Интеллектуальная собственность</span>
                     </div>
                     <div className="text-[11px] leading-relaxed text-white/60 space-y-2 uppercase">
-                        <p>6.1. Все тексты, изображения, визуальные элементы, звуки и иные материалы Приложения являются объектами интеллектуальной собственности Владельца или третьих лиц и охраняются законодательством Российской Федерации.</p>
-                        <p>6.2. Пользователю предоставляется неисключительное, непередаваемое право использования Приложения исключительно в личных некоммерческих целях. Копирование, распространение, модификация или любое коммерческое использование контента без письменного разрешения Владельца строго запрещено.</p>
-                    </div>
-                </section>
-
-                {/* Раздел 7: Ответственность сторон */}
-                <section className="space-y-3">
-                    <div className="flex items-center gap-2 text-[#00ffcc]">
-                        <FileText size={14} />
-                        <span className="text-[10px] font-black uppercase tracking-widest">07. Ответственность сторон</span>
-                    </div>
-                    <div className="text-[11px] leading-relaxed text-white/60 space-y-2 uppercase">
-                        <p>7.1. Приложение предоставляется по принципу «КАК ЕСТЬ» (as is). Владелец не гарантирует бесперебойную работу, отсутствие технических сбоев или ошибок.</p>
-                        <p>7.2. Владелец не несёт ответственности за любые прямые или косвенные последствия использования Приложения, включая эмоциональные реакции Пользователя.</p>
-                        <p>7.3. Все данные о прогрессе хранятся локально на устройстве Пользователя. Владелец не несёт ответственности за потерю прогресса при очистке данных, удалении приложения или смене устройства.</p>
-                        <p>7.4. Пользователь обязуется не использовать Приложение для действий, противоречащих законодательству РФ, включая распространение запрещённого контента.</p>
-                    </div>
-                </section>
-
-                {/* Раздел 8: Заключительные положения */}
-                <section className="space-y-3">
-                    <div className="flex items-center gap-2 text-[#00ffcc]">
-                        <FileText size={14} />
-                        <span className="text-[10px] font-black uppercase tracking-widest">08. Заключительные положения</span>
-                    </div>
-                    <div className="text-[11px] leading-relaxed text-white/60 space-y-2 uppercase">
-                        <p>8.1. Владелец вправе в любое время в одностороннем порядке изменять условия настоящего Соглашения. Продолжение использования Приложения после внесения изменений означает принятие новой редакции.</p>
-                        <p>8.2. Настоящее Соглашение регулируется законодательством Российской Федерации. Все споры и разногласия подлежат рассмотрению в суде по месту регистрации Владельца Приложения (г. Ярославль).</p>
-                        <p>8.3. Если какое-либо положение Соглашения будет признано недействительным, остальные положения сохраняют свою силу.</p>
-                        <p>8.4. По всем вопросам поддержки и предложений Пользователь может обращаться по адресу: <span className="text-white">rabbithole.help@vk.com</span></p>
+                        <p>6.1. Все материалы Приложения являются объектами интеллектуальной собственности Владельца.</p>
+                        <p>6.2. Копирование, тиражирование или коммерческое использование контента без разрешения Владельца запрещено.</p>
                     </div>
                 </section>
 
                 {/* Футер документа */}
-                <div className="pt-10 border-t border-white/10 flex flex-col items-center gap-4">
-                    <p className="text-[9px] text-white/40 text-center uppercase tracking-widest leading-relaxed">
-                        Используя Приложение «Кроличья Нора», вы подтверждаете, что вам исполнилось 18 лет,<br/>
-                        вы ознакомились и полностью согласны с настоящим Пользовательским соглашением и Политикой конфиденциальности.
+                <div className="pt-20 border-t border-white/10 flex flex-col items-center gap-4 text-center">
+                    <p className="text-[9px] text-white/40 uppercase tracking-widest leading-relaxed">
+                        Оплата лицензии означает полное согласие с условиями Соглашения,<br/>
+                        Политикой конфиденциальности и техническим способом хранения данных.
                     </p>
                     <div className="w-12 h-[1px] bg-[#00ffcc]/30"></div>
                     <p className="text-[8px] text-white/20 uppercase tracking-[0.3em]">
@@ -150,6 +127,7 @@ const TermsOfService: React.FC<TermsOfServiceProps> = ({ onBack }) => {
                     </p>
                 </div>
             </div>
+
         </div>
     );
 };

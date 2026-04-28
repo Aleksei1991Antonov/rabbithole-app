@@ -86,7 +86,7 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ onBack }) => {
 
     return (
         <div className="flex flex-col h-full p-6 space-y-6 animate-in fade-in duration-500 bg-black text-white font-mono overflow-hidden">
-            {/* Хедер */}
+            {/* ФИКСИРОВАННЫЙ ХЕДЕР */}
             <div className="flex items-center justify-between shrink-0">
                 <div className="flex items-center gap-4">
                     <button onClick={onBack} className="p-2 hover:bg-white/5 rounded-[1px] transition-colors">
@@ -97,7 +97,7 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ onBack }) => {
                 <Shield size={20} className="text-[#00ffcc]/40" />
             </div>
 
-            {/* Поиск */}
+            {/* ФИКСИРОВАННЫЙ ПОИСК */}
             <div className="relative shrink-0">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#00ffcc]/40" size={16} />
                 <input
@@ -109,64 +109,69 @@ const KnowledgeBase: React.FC<KnowledgeBaseProps> = ({ onBack }) => {
                 />
             </div>
 
-            {/* Список категорий */}
-            <div className="flex-1 overflow-y-auto pr-2 scrollbar-hide space-y-8">
-                {filteredCategories.map((cat) => (
-                    <div key={cat.id} className="space-y-3">
-                        <div className="flex flex-col gap-1 px-1">
-                            <div className="flex items-center gap-2">
-                                {cat.icon}
-                                <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#00ffcc]">
-                  {cat.title}
-                </span>
+            {/* ЕДИНАЯ ОБЛАСТЬ СКРОЛЛА (Контент + Футер) */}
+            <div className="flex-1 overflow-y-auto pr-2 scrollbar-hide">
+                <div className="space-y-8">
+                    {filteredCategories.map((cat) => (
+                        <div key={cat.id} className="space-y-3">
+                            <div className="flex flex-col gap-1 px-1">
+                                <div className="flex items-center gap-2">
+                                    {cat.icon}
+                                    <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#00ffcc]">
+                                      {cat.title}
+                                    </span>
+                                </div>
+                                <p className="text-[9px] text-white/30 uppercase leading-relaxed tracking-tight">
+                                    {cat.description}
+                                </p>
                             </div>
-                            <p className="text-[9px] text-white/30 uppercase leading-relaxed tracking-tight">
-                                {cat.description}
-                            </p>
-                        </div>
 
-                        <div className="grid gap-1">
-                            {cat.items.map((item, idx) => {
-                                const itemId = `${cat.id}-${idx}`;
-                                const isOpen = openItem === itemId;
+                            <div className="grid gap-1">
+                                {cat.items.map((item, idx) => {
+                                    const itemId = `${cat.id}-${idx}`;
+                                    const isOpen = openItem === itemId;
 
-                                return (
-                                    <div key={idx} className="border border-white/5 overflow-hidden transition-all duration-300 rounded-[1px]">
-                                        <button
-                                            onClick={() => toggleItem(itemId)}
-                                            className={`w-full flex items-center justify-between p-4 transition-all text-left ${
-                                                isOpen ? 'bg-[#00ffcc]/10 border-b border-[#00ffcc]/20' : 'bg-white/[0.02] hover:bg-[#00ffcc]/5'
-                                            }`}
-                                        >
-                                            <div className="flex items-center gap-3">
-                                                <FileText size={14} className={`${isOpen ? 'text-[#00ffcc]' : 'text-white/20'}`} />
-                                                <span className={`text-[10px] uppercase tracking-wider transition-colors ${isOpen ? 'text-white' : 'text-white/60'}`}>
-                          {item.q}
-                        </span>
-                                            </div>
-                                            <ChevronDown size={14} className={`text-[#00ffcc] transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
-                                        </button>
+                                    return (
+                                        <div key={idx} className="border border-white/5 overflow-hidden transition-all duration-300 rounded-[1px]">
+                                            <button
+                                                onClick={() => toggleItem(itemId)}
+                                                className={`w-full flex items-center justify-between p-4 transition-all text-left ${
+                                                    isOpen ? 'bg-[#00ffcc]/10 border-b border-[#00ffcc]/20' : 'bg-white/[0.02] hover:bg-[#00ffcc]/5'
+                                                }`}
+                                            >
+                                                <div className="flex items-center gap-3">
+                                                    <FileText size={14} className={`${isOpen ? 'text-[#00ffcc]' : 'text-white/20'}`} />
+                                                    <span className={`text-[10px] uppercase tracking-wider transition-colors ${isOpen ? 'text-white' : 'text-white/60'}`}>
+                                                      {item.q}
+                                                    </span>
+                                                </div>
+                                                <ChevronDown size={14} className={`text-[#00ffcc] transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+                                            </button>
 
-                                        <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                                            isOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
-                                        }`}>
-                                            <div className="p-4 text-[10px] leading-relaxed text-white/40 uppercase tracking-tight bg-black/40 border-t border-white/5">
-                                                {item.a}
+                                            <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                                                isOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
+                                            }`}>
+                                                <div className="p-4 text-[10px] leading-relaxed text-white/40 uppercase tracking-tight bg-black/40 border-t border-white/5">
+                                                    {item.a}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })}
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
 
-            {/* Футер */}
-            <div className="shrink-0 pt-4 border-t border-white/5 text-center">
-                <p className="text-[8px] text-white/20 uppercase tracking-[0.3em]">
-                    Система: Кроличья Нора // v1.1.0-MAX
-                </p>
+                    {/* ФУТЕР ТЕПЕРЬ ВНУТРИ СКРОЛЛА */}
+                    <div className="pt-12 pb-6 border-t border-white/5 text-center">
+                        <p className="text-[8px] text-white/20 uppercase tracking-[0.3em]">
+                            Система: Кроличья Нора // v1.0.0-BETA
+                        </p>
+                    </div>
+
+                    {/* ОТСТУП, ЧТОБЫ ФУТЕР ВЫЕХАЛ ИЗ-ПОД НАВИГАЦИИ */}
+                    <div className="h-10 shrink-0" />
+                </div>
             </div>
         </div>
     );

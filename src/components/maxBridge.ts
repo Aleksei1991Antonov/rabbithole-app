@@ -1,28 +1,22 @@
 /**
- * MAX Bridge Service v1.2
- * Полностью очищен от 'any' и неиспользуемых переменных для строгих правил ESLint.
+ * MAX Bridge Service v1.5 (Updated)
+ * Добавлена поддержка определения языка пользователя.
  */
 
 interface MaxUser {
     id: number;
     first_name: string;
     last_name?: string;
-    username?: string;
+    language_code?: string; // Добавляем поле языка из документации MAX
 }
 
 interface MaxWebApp {
     initDataUnsafe: {
         user?: MaxUser;
     };
-    platform: 'ios' | 'android' | 'desktop' | 'web';
-    requestScreenMaxBrightness: () => Promise<{ maxBrightness: boolean }>;
-    restoreScreenBrightness: () => Promise<{ maxBrightness: boolean }>;
-    HapticFeedback: {
-        impactOccurred: (style: 'light' | 'medium' | 'heavy' | 'rigid' | 'soft') => Promise<{ status: string }>;
-    };
+    platform: string;
 }
 
-// Используем Record<string, unknown> вместо any для соответствия правилам ESLint
 const getWebApp = (): MaxWebApp | undefined => {
     const globalContext = window as unknown as Record<string, unknown>;
     return globalContext['WebApp'] as MaxWebApp | undefined;
@@ -34,37 +28,17 @@ export const getMaxUserData = () => {
     if (!webApp || !webApp.initDataUnsafe?.user) {
         return {
             fullName: 'СУБЪЕКТ: НЕИДЕНТИФИЦИРОВАН',
-            platform: 'UNKNOWN'
+            platform: 'UNKNOWN',
+            language: 'UNKNOWN' // Значение по умолчанию
         };
     }
 
-    const { first_name, last_name } = webApp.initDataUnsafe.user;
+    const { first_name, last_name, language_code } = webApp.initDataUnsafe.user;
     const fullName = `${first_name || ''} ${last_name || ''}`.trim().toUpperCase();
 
     return {
         fullName: fullName ? `СУБЪЕКТ: ${fullName}` : 'СУБЪЕКТ: ИМЯ СКРЫТО',
-        platform: (webApp.platform || 'UNKNOWN').toUpperCase()
+        platform: (webApp.platform || 'UNKNOWN').toUpperCase(),
+        language: (language_code || 'RU').toUpperCase() // Возвращаем язык (например: RU, EN)
     };
-};
-
-export const setMaxBrightness = async (): Promise<void> => {
-    const webApp = getWebApp();
-    if (webApp && typeof webApp.requestScreenMaxBrightness === 'function') {
-        try {
-            await webApp.requestScreenMaxBrightness();
-        } catch {
-            // Ошибка игнорируется
-        }
-    }
-};
-
-/**
- * Вызывает тактильный отклик устройства.
- * Обязательно импортируйте и используйте в DiveScreen.tsx, чтобы убрать Warning.
- */
-export const triggerHaptic = (style: 'light' | 'medium' | 'heavy' = 'medium'): void => {
-    const webApp = getWebApp();
-    if (webApp && webApp.HapticFeedback) {
-        webApp.HapticFeedback.impactOccurred(style).catch(() => {});
-    }
 };

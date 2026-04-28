@@ -1,13 +1,13 @@
 import React from 'react';
-import { ChevronLeft, FileText, AlertTriangle, Heart } from 'lucide-react';
+import { ChevronLeft, ShieldCheck, Eye, Lock, BarChart3, Database, Mail } from 'lucide-react';
 
-interface TermsOfServiceProps {
+interface PrivacyPolicyProps {
     onBack: () => void;
 }
 
-const TermsOfService: React.FC<TermsOfServiceProps> = ({ onBack }) => {
+const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
     return (
-        <div className="fixed inset-0 z-[250] bg-black text-white font-mono flex flex-col animate-in slide-in-from-right duration-300 pt-16">
+        <div className="fixed inset-0 z-[9999] bg-black text-white font-mono flex flex-col animate-in slide-in-from-right duration-300 overflow-hidden">
 
             {/* Шапка документа */}
             <div className="p-6 border-b border-white/10 bg-black/80 backdrop-blur-md sticky top-0 z-10 flex items-center gap-4">
@@ -18,130 +18,102 @@ const TermsOfService: React.FC<TermsOfServiceProps> = ({ onBack }) => {
                     <ChevronLeft size={20} className="text-[#00ffcc]" />
                 </button>
                 <div>
-                    <h2 className="text-sm font-black uppercase tracking-tighter">Пользовательское соглашение</h2>
-                    <p className="text-[9px] text-white/40 uppercase tracking-widest mt-0.5">Редакция: 20.04.2026</p>
+                    <h2 className="text-sm font-black uppercase tracking-tighter text-[#00ffcc]">Политика конфиденциальности</h2>
+                    <p className="text-[9px] text-white/40 uppercase tracking-widest mt-0.5">Редакция: 28.04.2026</p>
                 </div>
             </div>
 
             {/* Основная часть документа */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-8 pb-20 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-6 space-y-8 pb-40 custom-scrollbar">
 
                 {/* Раздел 1: Общие положения */}
                 <section className="space-y-3">
                     <div className="flex items-center gap-2 text-[#00ffcc]">
-                        <FileText size={14} />
+                        <ShieldCheck size={14} />
                         <span className="text-[10px] font-black uppercase tracking-widest">01. Общие положения</span>
                     </div>
                     <div className="text-[11px] leading-relaxed text-white/60 space-y-2 uppercase">
-                        <p>1.1. Настоящее Пользовательское соглашение регулирует отношения между Владельцем Приложения и Пользователем при использовании Приложения <span className="text-white font-bold">«Кроличья Нора»</span> в мессенджере MAX.</p>
-                        <p>1.2. Использование Приложения означает полное и безоговорочное принятие условий настоящего Соглашения.</p>
-                        <p>1.3. Настоящее Соглашение действует совместно с <span className="text-[#00ffcc]">Политикой конфиденциальности</span>, размещённой в Приложении (или по ссылке в настройках). Использование Приложения означает согласие с обоими документами.</p>
-                        <p className="p-3 border border-white/5 bg-white/5 text-[10px]">
-                            <span className="text-[#00ffcc] block mb-1 font-bold italic">Владелец Приложения:</span><br/>
-                            ИП АНТОНОВ АЛЕКСЕЙ ОЛЕГОВИЧ<br/>
-                            ИНН: 760407796785<br/>
-                            ОГРНИП: 326760000001804<br/>
-                            Адрес: Россия, город Ярославль
+                        <p>1.1. Настоящая Политика определяет порядок обработки и защиты информации о физических лицах (Пользователях), пользующихся Приложением <span className="text-white font-bold">«Кроличья Нора»</span>.</p>
+                        <p>1.2. Целью настоящей Политики является обеспечение надлежащей защиты информации о Пользователе, в т.ч. его персональных данных, от несанкционированного доступа и разглашения.</p>
+                    </div>
+                </section>
+
+                {/* Раздел 2: Сбор данных через API */}
+                <section className="space-y-3">
+                    <div className="flex items-center gap-2 text-[#00ffcc]">
+                        <Database size={14} />
+                        <span className="text-[10px] font-black uppercase tracking-widest">02. Сбор данных через API</span>
+                    </div>
+                    <div className="text-[11px] leading-relaxed text-white/60 space-y-2 uppercase">
+                        <p>2.1. Приложение использует программные интерфейсы для обеспечения корректной работы игровых механик и системы доступа.</p>
+                        <p>2.2. Приложение получает доступ к следующим данным Пользователя:</p>
+                        <ul className="list-disc list-inside pl-2 space-y-1 text-white/80">
+                            <li>Адрес электронной почты (для идентификации оплаты);</li>
+                            <li>Уникальный идентификатор транзакции;</li>
+                            <li>Техническая информация об устройстве.</li>
+                        </ul>
+                        <p className="p-3 border border-white/10 bg-white/5 text-[10px] italic">
+                            Владелец не сохраняет персональные данные на собственных серверах в открытом виде. Обработка происходит локально и через защищенные облачные функции.
                         </p>
                     </div>
                 </section>
 
-                {/* Раздел 2: Предмет соглашения */}
+                {/* Раздел 3: Аналитика и Яндекс Метрика */}
                 <section className="space-y-3">
                     <div className="flex items-center gap-2 text-[#00ffcc]">
-                        <FileText size={14} />
-                        <span className="text-[10px] font-black uppercase tracking-widest">02. Предмет соглашения</span>
-                    </div>
-                    <div className="text-[11px] leading-relaxed text-white/60 uppercase">
-                        <p>Приложение является интерактивным художественным произведением, предоставляющим Пользователю доступ к текстовому и визуальному контенту в формате нелинейного повествования.</p>
-                    </div>
-                </section>
-
-                {/* Раздел 3: Поддержка проекта (Донаты) */}
-                <section className="space-y-3">
-                    <div className="flex items-center gap-2 text-[#00ffcc]">
-                        <Heart size={14} />
-                        <span className="text-[10px] font-black uppercase tracking-widest">03. Поддержка проекта</span>
+                        <BarChart3 size={14} />
+                        <span className="text-[10px] font-black uppercase tracking-widest">03. Аналитические инструменты</span>
                     </div>
                     <div className="text-[11px] leading-relaxed text-white/60 space-y-3 uppercase">
-                        <p>3.1. Пользователь имеет возможность совершить добровольное пожертвование (донат) в пользу Владельца для поддержки развития проекта.</p>
+                        <p>3.1. В Приложении используется сервис анонимной статистики <span className="text-white font-bold">ЯНДЕКС МЕТРИКА</span>.</p>
+                        <p>3.2. Сервис собирает обезличенную информацию о взаимодействии Пользователя с интерфейсом: время сессии, технические ошибки, конверсии.</p>
                         <div className="p-3 border border-[#00ffcc]/20 bg-[#00ffcc]/5 text-[10px]">
-                            3.2. Пожертвование является безвозмездным и добровольным действием Пользователя. Совершение пожертвования не является покупкой товара или услуги и не подлежит возврату.
+                            3.3. Данные собираются в обобщенном виде и не позволяют идентифицировать конкретного Пользователя. Цель сбора — техническая оптимизация Приложения.
                         </div>
-                        <p>3.3. Перевод средств осуществляется через внешние платежные сервисы (ЮMoney). Владелец Приложения не собирает и не хранит данные банковских карт Пользователей.</p>
                     </div>
                 </section>
 
-                {/* Раздел 4: Возрастные ограничения и контент */}
+                {/* Раздел 4: Хранение игрового прогресса */}
                 <section className="space-y-3">
                     <div className="flex items-center gap-2 text-[#00ffcc]">
-                        <AlertTriangle size={14} />
-                        <span className="text-[10px] font-black uppercase tracking-widest">04. Возрастные ограничения и контент</span>
+                        <Lock size={14} />
+                        <span className="text-[10px] font-black uppercase tracking-widest">04. Локальное хранение</span>
                     </div>
                     <div className="text-[11px] leading-relaxed text-white/60 uppercase space-y-2">
-                        <p>4.1. Приложение содержит контент, предназначенный исключительно для лиц старше 18 лет, включая философские размышления, абстрактные образы и элементы, которые могут носить провокационный или психологически интенсивный характер.</p>
-                        <p>4.2. Используя Приложение, Пользователь подтверждает, что ему исполнилось 18 лет и он добровольно ознакомился с контентом. Владелец не несёт ответственности за субъективное эмоциональное или психологическое восприятие контента.</p>
-                        <p>4.3. Использование Приложения лицами младше 18 лет запрещено.</p>
+                        <p>4.1. Весь игровой прогресс и статус доступа хранятся исключительно в защищенном локальном хранилище (<span className="text-white font-bold">DeviceStorage / LocalStorage</span>) устройства Пользователя.</p>
+                        <p>4.2. Владелец не имеет технического доступа к локальным данным Пользователя и не может восстановить их в случае удаления данных приложения или очистки кэша устройства.</p>
                     </div>
                 </section>
 
-                {/* Раздел 5: Персональные данные */}
+                {/* Раздел 5: Платежная информация */}
                 <section className="space-y-3">
                     <div className="flex items-center gap-2 text-[#00ffcc]">
-                        <AlertTriangle size={14} />
-                        <span className="text-[10px] font-black uppercase tracking-widest">05. Персональные данные</span>
+                        <Eye size={14} />
+                        <span className="text-[10px] font-black uppercase tracking-widest">05. Платежная информация</span>
                     </div>
                     <div className="text-[11px] leading-relaxed text-white/60 space-y-2 uppercase">
-                        <p>5.1. Приложение не собирает и не хранит персональные данные Пользователя на серверах Владельца. Все данные (прогресс, выборы) хранятся исключительно локально на устройстве Пользователя.</p>
-                        <p>5.2. При совершении доната обработка платежных данных осуществляется исключительно внешним сервисом (ЮMoney). Владелец Приложения не получает доступ к данным банковских карт и иной платежной информации.</p>
-                        <p>5.3. Пользователь может в любой момент прекратить использование Приложения и очистить локальные данные через настройки мессенджера MAX.</p>
+                        <p>5.1. При совершении платежей через сервис <span className="text-white font-bold">ЮKASSA</span>, Владелец не получает доступа к данным банковских карт Пользователей.</p>
+                        <p>5.2. Все транзакции проходят на стороне защищенного шлюза платежной системы в соответствии со стандартами PCI DSS.</p>
                     </div>
                 </section>
 
-                {/* Раздел 6: Интеллектуальная собственность */}
+                {/* Раздел 6: Обратная связь */}
                 <section className="space-y-3">
                     <div className="flex items-center gap-2 text-[#00ffcc]">
-                        <FileText size={14} />
-                        <span className="text-[10px] font-black uppercase tracking-widest">06. Интеллектуальная собственность</span>
+                        <Mail size={14} />
+                        <span className="text-[10px] font-black uppercase tracking-widest">06. Контакты</span>
                     </div>
                     <div className="text-[11px] leading-relaxed text-white/60 space-y-2 uppercase">
-                        <p>6.1. Все тексты, изображения, визуальные элементы и иные материалы Приложения являются объектами интеллектуальной собственности Владельца или третьих лиц и охраняются законодательством Российской Федерации.</p>
-                        <p>6.2. Пользователю предоставляется неисключительное, непередаваемое право использования Приложения исключительно в личных некоммерческих целях. Любое копирование, распространение или модификация контента без письменного разрешения запрещено.</p>
+                        <p>6.1. По вопросам, связанным с обработкой данных или технической поддержкой, Пользователь может обратиться по адресу:</p>
+                        <p className="text-white font-bold border-b border-white/20 inline-block">rabbithole.help@vk.com</p>
                     </div>
                 </section>
 
-                {/* Раздел 7: Ответственность сторон */}
-                <section className="space-y-3">
-                    <div className="flex items-center gap-2 text-[#00ffcc]">
-                        <FileText size={14} />
-                        <span className="text-[10px] font-black uppercase tracking-widest">07. Ответственность сторон</span>
-                    </div>
-                    <div className="text-[11px] leading-relaxed text-white/60 space-y-2 uppercase">
-                        <p>7.1. Приложение предоставляется по принципу «КАК ЕСТЬ». Владелец не гарантирует бесперебойную работу и отсутствие технических сбоев.</p>
-                        <p>7.2. Владелец не несёт ответственности за любые последствия использования Приложения, включая эмоциональные реакции Пользователя.</p>
-                        <p>7.3. Данные о прогрессе хранятся локально. Владелец не несёт ответственности за их потерю при очистке данных мессенджера MAX или удалении Приложения.</p>
-                        <p>7.4. Пользователь обязуется не использовать Приложение для действий, противоречащих законодательству РФ.</p>
-                    </div>
-                </section>
-
-                {/* Раздел 8: Заключительные положения */}
-                <section className="space-y-3">
-                    <div className="flex items-center gap-2 text-[#00ffcc]">
-                        <FileText size={14} />
-                        <span className="text-[10px] font-black uppercase tracking-widest">08. Заключительные положения</span>
-                    </div>
-                    <div className="text-[11px] leading-relaxed text-white/60 space-y-2 uppercase">
-                        <p>8.1. Владелец вправе в любое время изменять условия настоящего Соглашения в одностороннем порядке. Продолжение использования Приложения после изменений означает принятие новой редакции.</p>
-                        <p>8.2. Настоящее Соглашение регулируется законодательством Российской Федерации.</p>
-                        <p>8.3. По всем вопросам Пользователь может обращаться по адресу: <span className="text-white">rabbithole.help@vk.com</span></p>
-                    </div>
-                </section>
-
-                {/* Футер */}
-                <div className="pt-10 border-t border-white/10 flex flex-col items-center gap-4">
+                {/* Футер документа */}
+                <div className="pt-20 border-t border-white/10 flex flex-col items-center gap-4">
                     <p className="text-[9px] text-white/40 text-center uppercase tracking-widest leading-relaxed">
-                        Используя Приложение «Кроличья Нора» в мессенджере MAX, вы подтверждаете, что вам исполнилось 18 лет,<br/>
-                        вы ознакомились и полностью согласны с настоящим Пользовательским соглашением и Политикой конфиденциальности.
+                        Использование Приложения «Кроличья Нора» означает ваше согласие<br/>
+                        с условиями настоящей Политики конфиденциальности.
                     </p>
                     <div className="w-12 h-[1px] bg-[#00ffcc]/30"></div>
                     <p className="text-[8px] text-white/20 uppercase tracking-[0.3em]">
@@ -149,8 +121,9 @@ const TermsOfService: React.FC<TermsOfServiceProps> = ({ onBack }) => {
                     </p>
                 </div>
             </div>
+
         </div>
     );
 };
 
-export default TermsOfService;
+export default PrivacyPolicy;

@@ -1,115 +1,136 @@
 import React, { useEffect, useRef } from 'react';
 
-
 const HypnoticVortex: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const resizeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
-        const ctx = canvas.getContext('2d');
+
+        // Возвращаем alpha: true для прозрачности фона канваса
+        const ctx = canvas.getContext('2d', {
+            alpha: true,
+            desynchronized: true
+        });
         if (!ctx) return;
 
         let animationFrameId: number;
         const particles: Particle[] = [];
-        const particleCount = 80; // Оптимально для мобилок и десктопа
-        const connectionDistance = 150; // Расстояние, на котором вспыхивает связь
+        const particleCount = 60;
+        const connectionDistance = 140;
 
         class Particle {
-            x: number;
-            y: number;
-            vx: number;
-            vy: number;
-            size: number;
-
-            constructor(width: number, height: number) {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                // Медленное, вдумчивое движение
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.size = Math.random() * 2 + 1;
+            x: number; y: number; vx: number; vy: number; size: number;
+            constructor(w: number, h: number) {
+                this.x = Math.random() * w;
+                this.y = Math.random() * h;
+                this.vx = (Math.random() - 0.5) * 0.4;
+                this.vy = (Math.random() - 0.5) * 0.4;
+                this.size = Math.random() * 1.5 + 1;
             }
-
-            update(width: number, height: number) {
+            update(w: number, h: number) {
                 this.x += this.vx;
                 this.y += this.vy;
-
-                if (this.x < 0 || this.x > width) this.vx *= -1;
-                if (this.y < 0 || this.y > height) this.vy *= -1;
-            }
-
-            draw(ctx: CanvasRenderingContext2D) {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(0, 255, 204, 0.5)';
-                ctx.fill();
+                if (this.x < 0 || this.x > w) this.vx *= -1;
+                if (this.y < 0 || this.y > h) this.vy *= -1;
             }
         }
 
-        const init = () => {
+        const init = (w: number, h: number) => {
             particles.length = 0;
             for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle(canvas.width, canvas.height));
+                particles.push(new Particle(w, h));
             }
         };
 
+        let lastWidth = 0;
+        let lastHeight = 0;
+
         const resize = () => {
-            const parent = canvas.parentElement;
-            if (parent) {
-                canvas.width = parent.clientWidth;
-                canvas.height = parent.clientHeight;
-                init();
+            const parent = containerRef.current;
+            if (!parent) return;
+
+            const { clientWidth: w, clientHeight: h } = parent;
+
+            if (Math.abs(lastWidth - w) > 10 || Math.abs(lastHeight - h) > 10) {
+                if (resizeTimerRef.current) clearTimeout(resizeTimerRef.current);
+
+                resizeTimerRef.current = setTimeout(() => {
+                    canvas.width = w;
+                    canvas.height = h;
+                    lastWidth = w;
+                    lastHeight = h;
+                    init(w, h);
+                }, 150);
             }
         };
 
         const draw = () => {
+            // ВАЖНО: Используем clearRect вместо fillRect для прозрачности
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Рисуем связи
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
+            ctx.lineWidth = 0.8;
 
-                    if (distance < connectionDistance) {
-                        // Чем ближе точки, тем ярче линия
-                        const opacity = 1 - distance / connectionDistance;
+            for (let i = 0; i < particles.length; i++) {
+                const p1 = particles[i];
+                p1.update(canvas.width, canvas.height);
+
+                for (let j = i + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < connectionDistance) {
+                        const opacity = (1 - dist / connectionDistance) * 0.15;
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(0, 255, 204, ${opacity * 0.2})`;
-                        ctx.lineWidth = 1;
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(0, 255, 204, ${opacity})`;
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
                         ctx.stroke();
                     }
                 }
+
+                ctx.beginPath();
+                ctx.arc(p1.x, p1.y, p1.size, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(0, 255, 204, 0.3)';
+                ctx.fill();
             }
-
-            // Рисуем узлы
-            particles.forEach(p => {
-                p.update(canvas.width, canvas.height);
-                p.draw(ctx);
-            });
-
             animationFrameId = requestAnimationFrame(draw);
         };
 
         window.addEventListener('resize', resize);
-        resize();
+
+        const initialParent = containerRef.current;
+        if (initialParent) {
+            canvas.width = initialParent.clientWidth;
+            canvas.height = initialParent.clientHeight;
+            lastWidth = canvas.width;
+            lastHeight = canvas.height;
+            init(canvas.width, canvas.height);
+        }
+
         draw();
 
         return () => {
             window.removeEventListener('resize', resize);
+            if (resizeTimerRef.current) clearTimeout(resizeTimerRef.current);
             cancelAnimationFrame(animationFrameId);
         };
     }, []);
 
     return (
-        <div className="w-full h-full pointer-events-none opacity-60">
+        <div ref={containerRef} className="w-full h-full pointer-events-none overflow-hidden bg-transparent">
             <canvas
                 ref={canvasRef}
-                className="block w-full h-full"
+                className="block w-full h-full will-change-transform"
+                style={{
+                    transform: 'translate3d(0,0,0)',
+                    backfaceVisibility: 'hidden',
+                    imageRendering: 'auto'
+                }}
             />
         </div>
     );
