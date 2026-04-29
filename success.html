@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>СИСТЕМА: ДОСТУП</title>
+    <title>СИСТЕМА: СТАТУС</title>
     <style>
         body {
             background-color: black;
             color: #00ffcc;
-            font-family: monospace;
+            font-family: 'Courier New', monospace;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -17,51 +17,68 @@
             margin: 0;
             text-transform: uppercase;
             text-align: center;
+            overflow: hidden;
         }
         .container {
-            border: 1px solid rgba(0, 255, 204, 0.3);
+            border: 1px solid rgba(0, 255, 204, 0.2);
             padding: 40px 20px;
-            border-radius: 1px;
-            background: black;
-            max-width: 280px;
+            border-radius: 2px;
+            background: linear-gradient(180deg, rgba(0, 255, 204, 0.05) 0%, rgba(0, 0, 0, 0) 100%);
+            max-width: 300px;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.1);
         }
         .icon {
-            font-size: 32px;
+            font-size: 40px;
             margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 204, 0.5));
         }
         h1 {
-            font-size: 14px;
-            letter-spacing: 3px;
+            font-size: 16px;
+            letter-spacing: 4px;
             margin-bottom: 15px;
             font-weight: 900;
         }
         p {
-            font-size: 9px;
-            color: rgba(0, 255, 204, 0.5);
-            letter-spacing: 1px;
-            line-height: 1.6;
+            font-size: 10px;
+            color: rgba(0, 255, 204, 0.7);
+            letter-spacing: 2px;
+            line-height: 1.8;
             margin: 0;
         }
         .divider {
-            width: 40px;
+            width: 60px;
             height: 1px;
             background: rgba(0, 255, 204, 0.3);
             margin: 20px auto;
+        }
+        .blink {
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="icon">✓</div>
-    <h1>ОПЛАТА ПРИНЯТА</h1>
+    <div class="icon">🌀</div>
+    <h1>СЕАНС ЗАВЕРШЕН</h1>
     <div class="divider"></div>
-    <p>ПРОТОКОЛ АКТИВИРОВАН.<br><br>ВЕРНИТЕСЬ В MAX МЕССЕНДЖЕР,<br>ЧТОБЫ ПРОДОЛЖИТЬ ПОГРУЖЕНИЕ.<br>ЭТО ОКНО МОЖНО ЗАКРЫТЬ</p>
+    <p>
+        ОПЕРАЦИЯ ОБРАБОТАНА.<br><br>
+        <span class="blink">ВЕРНИТЕСЬ В ПРИЛОЖЕНИЕ MAX</span><br>
+        ДЛЯ ПРОВЕРКИ СТАТУСА.<br><br>
+        ЭТО ОКНО МОЖНО ЗАКРЫТЬ.
+    </p>
 </div>
 
 <script>
+    // Попытка закрыть окно через 5 секунд
     setTimeout(() => {
         window.close();
-    }, 4000);
+    }, 5000);
 </script>
 </body>
 </html>
