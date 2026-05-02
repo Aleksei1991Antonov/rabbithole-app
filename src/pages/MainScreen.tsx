@@ -1,57 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Zap, Eye } from 'lucide-react';
 import UserMatrixBackground from '../components/UserMatrixBackground';
-
-// 1. Описываем интерфейс для тех методов, которые нам нужны
-interface AdminWebApp {
-    DeviceStorage?: {
-        clear: () => Promise<void>;
-    };
-}
+import { getMaxUserData } from '../components/maxBridge';
 
 interface MainScreenProps {
     onStart: () => void;
+    onAdmin?: () => void; // Пропс для перехода в админку
 }
 
-const MainScreen: React.FC<MainScreenProps> = ({ onStart }) => {
+const MainScreen: React.FC<MainScreenProps> = ({ onStart, onAdmin }) => {
     const [isMatrixActive, setIsMatrixActive] = useState(false);
+    const [adminClicks, setAdminClicks] = useState(0);
 
-    // Скрытый скрипт сброса (Админ-доступ)
-    const handleAdminReset = async () => {
-        const confirmed = window.confirm(
-            "АДМИН-ДОСТУП:\n\nВы хотите удалить данные платежей и все сохранения?"
-        );
+    // Получаем данные о платформе через твой сервис
+    const userData = useMemo(() => getMaxUserData(), []);
 
-        if (confirmed) {
-            try {
-                // Очистка локального хранилища браузера
-                localStorage.clear();
+    // Проверка десктопа
+    const isDesktop = userData.platform !== 'ANDROID' && userData.platform !== 'IOS';
 
-                // Безопасное приведение типа через unknown, чтобы ESLint не ругался на any
-                const webApp = (window as unknown as { WebApp?: AdminWebApp }).WebApp;
-
-                if (webApp?.DeviceStorage) {
-                    await webApp.DeviceStorage.clear();
-                }
-
-                alert("СИСТЕМА: Все данные успешно удалены.");
-                window.location.reload();
-            } catch (error) {
-                alert("Ошибка при очистке: " + error);
-            }
+    // Логика секретного входа в админку
+    const handleSecretAdminClick = () => {
+        const newCount = adminClicks + 1;
+        if (newCount >= 5) {
+            setAdminClicks(0);
+            if (onAdmin) onAdmin(); // Переход в настройки
+        } else {
+            setAdminClicks(newCount);
+            // Сброс счетчика, если пауза между кликами больше 2 сек
+            const timer = setTimeout(() => setAdminClicks(0), 2000);
+            return () => clearTimeout(timer);
         }
     };
 
+    // Динамический стиль: отключаем блюр на десктопе для устранения мерцания
+    const backdropStyle = isDesktop
+        ? {
+            backdropFilter: 'none',
+            WebkitBackdropFilter: 'none',
+            backgroundColor: 'rgba(0, 255, 204, 0.12)'
+        }
+        : {
+            backdropFilter: 'blur(2px)',
+            WebkitBackdropFilter: 'blur(2px)'
+        };
+
     return (
-        /* transform-gpu предотвращает мерцание при анимациях в WebView */
         <div className="relative flex flex-col items-center justify-center h-full space-y-10 p-6 animate-in fade-in duration-700 transform-gpu">
 
-            {/* СКРЫТАЯ КНОПКА АДМИНА (НЕВИДИМАЯ)
-                Находится в правом верхнем углу, размер 64x64 пикселя */}
-            <button
-                onClick={handleAdminReset}
-                className="fixed top-0 right-0 w-16 h-16 z-[99999] bg-transparent border-none outline-none cursor-default"
-                aria-label="Admin Access"
+            {/* НЕВИДИМАЯ КНОПКА АДМИНКИ (Справа вверху) */}
+            <div
+                onClick={handleSecretAdminClick}
+                className="absolute top-0 right-0 w-20 h-20 z-50 cursor-default opacity-0"
             />
 
             {/* 1. МАТРИЦА */}
@@ -77,9 +76,9 @@ const MainScreen: React.FC<MainScreenProps> = ({ onStart }) => {
             <div className="relative z-10 w-full max-w-xs space-y-4">
                 <button
                     onClick={onStart}
-                    className="w-full group relative p-8 border border-[#00ffcc]/30 bg-[#00ffcc]/5 backdrop-blur-[2px] rounded-[1px] hover:bg-[#00ffcc]/15 hover:border-[#00ffcc] transition-all duration-500 overflow-hidden"
+                    className="w-full group relative p-8 border border-[#00ffcc]/30 bg-[#00ffcc]/5 rounded-[1px] hover:bg-[#00ffcc]/15 hover:border-[#00ffcc] transition-all duration-500 overflow-hidden"
                     style={{
-                        WebkitBackdropFilter: 'blur(2px)',
+                        ...backdropStyle,
                         backfaceVisibility: 'hidden',
                         transform: 'translateZ(0)'
                     }}
@@ -94,13 +93,13 @@ const MainScreen: React.FC<MainScreenProps> = ({ onStart }) => {
 
                 <button
                     onClick={() => setIsMatrixActive(!isMatrixActive)}
-                    className={`w-full flex items-center justify-center gap-3 p-4 border backdrop-blur-[2px] rounded-[1px] transition-all duration-700 
+                    className={`w-full flex items-center justify-center gap-3 p-4 border rounded-[1px] transition-all duration-700 
                         ${isMatrixActive
                         ? 'border-[#00ffcc] bg-[#00ffcc]/10 opacity-100 shadow-[0_0_20px_rgba(0,255,204,0.2)]'
                         : 'border-white/10 bg-white/5 opacity-60 hover:opacity-100 hover:border-[#00ffcc]/30'
                     }`}
                     style={{
-                        WebkitBackdropFilter: 'blur(2px)',
+                        ...backdropStyle,
                         backfaceVisibility: 'hidden',
                         transform: 'translateZ(0)'
                     }}

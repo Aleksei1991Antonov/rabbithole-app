@@ -91,7 +91,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = ({ onBack }) => {
 
                 <button
                     onClick={handleShare}
-                    className="flex items-center gap-2 px-4 py-2 bg-[#00ffcc] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all active:scale-95"
+                    className="flex items-center gap-2 px-4 py-2 bg-[#00ffcc] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all active:scale-95 rounded-[1px]"
                 >
                     {copiedField === 'share' ? <Check size={14} /> : <Share2 size={14} />}
                     <span>{copiedField === 'share' ? 'Готово' : 'Поделиться'}</span>

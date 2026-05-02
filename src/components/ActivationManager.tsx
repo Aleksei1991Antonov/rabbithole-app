@@ -76,7 +76,7 @@ const ActivationManager: React.FC<ActivationManagerProps> = ({ show, onClose, on
                     </div>
                     <div className="relative group overflow-hidden border border-[#00ffcc]/30 bg-[#00ffcc]/5 hover:bg-[#00ffcc]/10 transition-all rounded-[1px]">
                         <PaymentButton
-                            amount={2}
+                            amount={512}
                             onSuccess={onSuccess}
                             variant="trigger"
                             show={true}

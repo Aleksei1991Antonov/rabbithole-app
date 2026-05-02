@@ -1,0 +1,8 @@
+### Установка вебхука напрямую на функцию
+POST https://platform-api.max.ru/subscriptions
+Authorization: f9LHodD0cOJ_1RsFdguRx9VSWRo2ErnxyekjlquWCRpHw6qSqM0LWjCCDf7xIJyNrlo4xknU9-H-L_1jsZSc
+Content-Type: application/json
+
+{
+  "url": "https://functions.yandexcloud.net/d4ehv6emalp9qek3fvqg"
+}

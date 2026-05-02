@@ -26,7 +26,7 @@ const DiveScreen: React.FC<DiveScreenProps> = ({ onBack }) => {
         const userData = getMaxUserData();
 
         return {
-            depth: 28.0,
+            depth: 0.0,
             lastDirection: null,
             messages: [{
                 role: 'system',
@@ -272,7 +272,7 @@ const DiveScreen: React.FC<DiveScreenProps> = ({ onBack }) => {
                 <div className="flex items-center gap-3">
                     <button onClick={onBack} className="p-2 -ml-2 text-[#00ffcc]/50 active:text-[#00ffcc]"><ChevronLeft size={24} /></button>
                     {isActiveDive && (
-                        <button onClick={() => setShowConfirmExit(true)} className="flex items-center gap-2 px-3 py-1.5 border border-[#00ffcc]/20 bg-[#00ffcc]/5 active:bg-[#00ffcc]/20">
+                        <button onClick={() => setShowConfirmExit(true)} className="flex items-center gap-2 px-3 py-1.5 border border-[#00ffcc]/20 bg-[#00ffcc]/5 active:bg-[#00ffcc]/20 rounded-[1px]">
                             <LogOut size={12} className="text-[#00ffcc]/80" />
                             <span className="text-[8px] text-[#00ffcc]/80 font-black uppercase tracking-tighter">Завершить</span>
                         </button>
@@ -313,7 +313,7 @@ const DiveScreen: React.FC<DiveScreenProps> = ({ onBack }) => {
 
             <footer className="shrink-0 p-6 pb-10 bg-black/90 border-t border-white/5 backdrop-blur-md z-20">
                 {!isActiveDive ? (
-                    <button onClick={() => setShowConfirmDive(true)} className="w-full py-5 bg-[#00ffcc]/5 border border-[#00ffcc]/30 text-[#00ffcc] active:bg-[#00ffcc]/10 transition-all flex items-center justify-center gap-3 group">
+                    <button onClick={() => setShowConfirmDive(true)} className="w-full py-5 bg-[#00ffcc]/5 border border-[#00ffcc]/30 text-[#00ffcc] active:bg-[#00ffcc]/10 transition-all flex items-center justify-center gap-3 group rounded-[1px]">
                         <Play size={16} className="fill-[#00ffcc]/20" />
                         <span className="text-[11px] font-black uppercase tracking-[0.4em]">Инициировать погружение</span>
                     </button>
@@ -380,11 +380,11 @@ const DiveScreen: React.FC<DiveScreenProps> = ({ onBack }) => {
                         <div className="text-center mb-2">
                             <div className="text-[10px] text-[#00ffcc]/60 font-black uppercase tracking-[0.3em]">Доступ к Изнанке подтвержден</div>
                         </div>
-                        <button onClick={() => handleAction('ВГЛУБЬ')} className="w-full py-5 bg-[#00ffcc]/10 border border-[#00ffcc]/50 text-[#00ffcc] active:bg-[#00ffcc]/20 transition-all flex items-center justify-center gap-3 group">
+                        <button onClick={() => handleAction('ВГЛУБЬ')} className="w-full py-5 bg-[#00ffcc]/10 border border-[#00ffcc]/50 text-[#00ffcc] active:bg-[#00ffcc]/20 transition-all flex items-center justify-center gap-3 group rounded-[1px]">
                             <ChevronDown size={18} className="group-active:translate-y-1 transition-transform" />
                             <span className="text-[11px] font-black uppercase tracking-[0.4em]">Продолжить погружение</span>
                         </button>
-                        <button onClick={() => setShowConfirmExit(true)} className="w-full py-3 bg-white/5 border border-white/10 text-white/30 active:bg-white/10 transition-all flex items-center justify-center gap-2">
+                        <button onClick={() => setShowConfirmExit(true)} className="w-full py-3 bg-white/5 border border-white/10 text-white/30 active:bg-white/10 transition-all flex items-center justify-center gap-2 rounded-[1px]">
                             <RefreshCcw size={12} />
                             <span className="text-[9px] font-bold uppercase tracking-[0.2em]">Завершить на этом этапе</span>
                         </button>
@@ -395,7 +395,7 @@ const DiveScreen: React.FC<DiveScreenProps> = ({ onBack }) => {
                         <button
                             onClick={handleRandomAction}
                             disabled={isTyping}
-                            className={`w-full py-3 border border-[#00ffcc]/20 bg-[#00ffcc]/5 flex items-center justify-center gap-2 transition-all ${isTyping ? 'opacity-30' : 'active:bg-[#00ffcc]/15'}`}
+                            className={`w-full py-3 border border-[#00ffcc]/20 bg-[#00ffcc]/5 flex items-center justify-center gap-2 transition-all rounded-[1px] ${isTyping ? 'opacity-30' : 'active:bg-[#00ffcc]/15'}`}
                         >
                             <RefreshCcw size={14} className={`text-[#00ffcc]/60 ${isTyping ? 'animate-spin' : ''}`} />
                             <span className="text-[9px] font-black text-[#00ffcc]/80 uppercase tracking-[0.3em]">Случайный вектор</span>
@@ -405,7 +405,7 @@ const DiveScreen: React.FC<DiveScreenProps> = ({ onBack }) => {
                             <button
                                 onClick={() => handleAction('ВГЛУБЬ')}
                                 disabled={isTyping}
-                                className={`flex flex-col items-center justify-center gap-1 py-4 border border-[#00ffcc]/30 bg-[#00ffcc]/5 transition-all ${isTyping ? 'opacity-30' : 'active:bg-[#00ffcc]/15'}`}
+                                className={`flex flex-col items-center justify-center gap-1 py-4 border border-[#00ffcc]/30 bg-[#00ffcc]/5 transition-all rounded-[1px] ${isTyping ? 'opacity-30' : 'active:bg-[#00ffcc]/15'}`}
                             >
                                 <ChevronDown size={18} className="text-[#00ffcc]" />
                                 <span className="text-[9px] font-black text-white uppercase tracking-widest">Вглубь</span>
@@ -413,7 +413,7 @@ const DiveScreen: React.FC<DiveScreenProps> = ({ onBack }) => {
                             <button
                                 onClick={() => handleAction('ВШИРЬ')}
                                 disabled={isTyping}
-                                className={`flex flex-col items-center justify-center gap-1 py-4 border border-white/10 bg-white/5 transition-all ${isTyping ? 'opacity-30' : 'active:bg-white/15'}`}
+                                className={`flex flex-col items-center justify-center gap-1 py-4 border border-white/10 bg-white/5 transition-all rounded-[1px] ${isTyping ? 'opacity-30' : 'active:bg-white/15'}`}
                             >
                                 <MoveHorizontal size={18} className="text-white/50" />
                                 <span className="text-[9px] font-black text-white uppercase tracking-widest">Вширь</span>
@@ -421,7 +421,7 @@ const DiveScreen: React.FC<DiveScreenProps> = ({ onBack }) => {
                             <button
                                 onClick={() => handleAction('ВВЕРХ')}
                                 disabled={isTyping}
-                                className={`flex flex-col items-center justify-center gap-1 py-4 border border-white/10 bg-white/5 transition-all ${isTyping ? 'opacity-30' : 'active:bg-white/15'}`}
+                                className={`flex flex-col items-center justify-center gap-1 py-4 border border-white/10 bg-white/5 transition-all rounded-[1px] ${isTyping ? 'opacity-30' : 'active:bg-white/15'}`}
                             >
                                 <ChevronUp size={18} className="text-white/50" />
                                 <span className="text-[9px] font-black text-white uppercase tracking-widest">Вверх</span>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Zap, BookOpen, Moon, Headphones, Smartphone, Sparkles, Wind, LogOut, Info, ShieldCheck, Terminal, Fingerprint } from 'lucide-react';
+import { Zap, BookOpen, Moon, VolumeX, Smartphone, Sparkles, Wind, LogOut, Info, ShieldCheck, Terminal, Fingerprint } from 'lucide-react';
 
 // Описываем интерфейс моста строго, чтобы линтер не ругался на any
 interface WebAppBridge {
@@ -43,7 +43,6 @@ const DiveOverlays: React.FC<DiveOverlaysProps> = ({
 
     return (
         <div className="absolute inset-0 z-[100] flex items-center justify-center p-6 bg-black/95 backdrop-blur-xl animate-in fade-in duration-300">
-
             {/* ГЛАВНОЕ ОКНО ВЫБОРА */}
             {showConfirmDive && !showInstruction && !showAbout && (
                 <div className="w-full max-w-xs border border-[#00ffcc]/30 bg-[#00ffcc]/5 p-8 space-y-8 rounded-[1px] animate-in zoom-in-95 duration-300">
@@ -63,7 +62,7 @@ const DiveOverlays: React.FC<DiveOverlaysProps> = ({
                                 window.WebApp?.HapticFeedback?.impactOccurred('light');
                                 onStartDive('ВГЛУБЬ');
                             }}
-                            className="w-full py-5 bg-[#00ffcc] text-black text-[10px] font-black uppercase tracking-[0.1em] active:scale-95 transition-all flex items-center justify-center gap-2"
+                            className="w-full py-5 bg-[#00ffcc] text-black text-[10px] font-black uppercase tracking-[0.1em] active:scale-95 transition-all flex items-center justify-center gap-2 rounded-[1px]"
                         >
                             <Zap size={14} className="fill-black" />
                             Начать путешествие
@@ -72,14 +71,14 @@ const DiveOverlays: React.FC<DiveOverlaysProps> = ({
                         <div className="grid grid-cols-2 gap-2">
                             <button
                                 onClick={onOpenInstruction}
-                                className="py-4 bg-white/5 border border-white/10 text-white text-[9px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2 active:bg-white/10 transition-colors"
+                                className="py-4 bg-white/5 border border-white/10 text-white text-[9px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2 active:bg-white/10 transition-colors rounded-[1px]"
                             >
                                 <BookOpen size={12} />
                                 Инструкция
                             </button>
                             <button
                                 onClick={() => setShowAbout(true)}
-                                className="py-4 bg-white/5 border border-white/10 text-white text-[9px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2 active:bg-white/10 transition-colors"
+                                className="py-4 bg-white/5 border border-white/10 text-white text-[9px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2 active:bg-white/10 transition-colors rounded-[1px]"
                             >
                                 <Info size={12} />
                                 Суть
@@ -96,7 +95,10 @@ const DiveOverlays: React.FC<DiveOverlaysProps> = ({
                             </p>
                         </div>
 
-                        <button onClick={onCancelDive} className="w-full py-2 text-zinc-600 text-[9px] font-bold uppercase tracking-[0.2em] active:text-zinc-400 transition-colors">
+                        <button
+                            onClick={onCancelDive}
+                            className="w-full py-2 text-zinc-600 text-[9px] font-bold uppercase tracking-[0.2em] active:text-zinc-400 transition-colors"
+                        >
                             Отмена
                         </button>
                     </div>
@@ -127,7 +129,7 @@ const DiveOverlays: React.FC<DiveOverlaysProps> = ({
                             «Вы не читаете эту историю. Вы становитесь её единственным автором, выбирая вектор движения в пустоте».
                         </p>
                     </div>
-                    <button onClick={() => setShowAbout(false)} className="w-full py-4 bg-[#00ffcc]/10 border border-[#00ffcc]/40 text-[#00ffcc] text-[10px] font-black uppercase tracking-[0.2em] active:bg-[#00ffcc]/20 transition-colors">
+                    <button onClick={() => setShowAbout(false)} className="w-full py-4 bg-[#00ffcc]/10 border border-[#00ffcc]/40 text-[#00ffcc] text-[10px] font-black uppercase tracking-[0.2em] active:bg-[#00ffcc]/20 transition-colors rounded-[1px]">
                         Вернуться к активации
                     </button>
                 </div>
@@ -135,42 +137,90 @@ const DiveOverlays: React.FC<DiveOverlaysProps> = ({
 
             {/* ОКНО ИНСТРУКЦИИ */}
             {showInstruction && (
-                <div className="w-full max-w-sm border border-white/10 bg-zinc-950 p-8 space-y-6 rounded-[1px] animate-in slide-in-from-bottom-4">
+                <div className="w-full max-w-sm border border-white/10 bg-zinc-950 p-8 space-y-6 rounded-[1px] animate-in slide-in-from-bottom-4 duration-700">
                     <div className="space-y-2 text-center">
-                        <h2 className="text-[8px] uppercase tracking-[0.4em] text-[#00ffcc]">Протокол тишины</h2>
-                        <h1 className="text-lg font-black uppercase text-white">Инструкция</h1>
+                        <div className="flex justify-center gap-1 mb-1">
+                            <div className="w-1 h-1 bg-[#00ffcc] animate-pulse" />
+                            <div className="w-1 h-1 bg-[#00ffcc]/40" />
+                            <div className="w-1 h-1 bg-[#00ffcc]/10" />
+                        </div>
+                        <h2 className="text-[8px] uppercase tracking-[0.4em] text-[#00ffcc]/60">Подготовка к погружению</h2>
+                        <h1 className="text-xl font-black uppercase text-white tracking-widest leading-tight">
+                            Кроличья Нора
+                        </h1>
+                        <p className="text-[7px] uppercase tracking-[0.2em] text-white/30 italic">Интеллектуальное путешествие</p>
                     </div>
-                    <div className="space-y-5">
-                        <div className="flex items-center gap-4 text-white/60">
-                            <Moon size={18} className="text-[#00ffcc] shrink-0" />
-                            <span className="text-[9px] uppercase tracking-wider leading-relaxed">Найдите тихое место. Рекомендуется положение лежа.</span>
-                        </div>
-                        <div className="flex items-center gap-4 text-white/60">
-                            <Headphones size={18} className="text-[#00ffcc] shrink-0" />
-                            <span className="text-[9px] uppercase tracking-wider leading-relaxed">Используйте наушники для полной изоляции.</span>
-                        </div>
-                        <div className="flex items-center gap-4 text-white/60">
-                            <Smartphone size={18} className="text-[#00ffcc] shrink-0" />
-                            <span className="text-[9px] uppercase tracking-wider leading-relaxed">Включите режим «Не беспокоить».</span>
-                        </div>
-                        <div className="p-4 bg-[#00ffcc]/5 border border-[#00ffcc]/20 rounded-sm space-y-2">
-                            <div className="flex items-center gap-2 text-[#00ffcc]">
-                                <Sparkles size={14} />
-                                <span className="text-[9px] font-black uppercase tracking-[0.2em]">Золотой час</span>
+
+                    <div className="space-y-6">
+                        {/* ТЕМНОТА */}
+                        <div className="flex items-start gap-4 text-white/60 group">
+                            <div className="mt-0.5 p-1.5 bg-[#00ffcc]/5 border border-[#00ffcc]/10 rounded-[1px]">
+                                <Moon size={16} className="text-[#00ffcc] shrink-0" />
                             </div>
-                            <p className="text-[8px] text-white/50 leading-relaxed uppercase tracking-widest">
-                                Лучшее время для резонанса: <span className="text-white">22:00 — 02:00</span>. Когда внешний мир затихает, внутренний голос становится яснее.
+                            <div className="flex flex-col gap-1">
+                                <span className="text-[10px] text-white uppercase font-bold tracking-wider">Фокус внимания</span>
+                                <span className="text-[9px] uppercase tracking-wider leading-relaxed opacity-70">
+                    Найдите место с минимальным освещением. Рекомендуется положение лёжа.
+                </span>
+                            </div>
+                        </div>
+
+                        {/* ТИШИНА */}
+                        <div className="flex items-start gap-4 text-white/60 group">
+                            <div className="mt-0.5 p-1.5 bg-[#00ffcc]/5 border border-[#00ffcc]/10 rounded-[1px]">
+                                <VolumeX size={16} className="text-[#00ffcc] shrink-0" />
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <span className="text-[10px] text-white uppercase font-bold tracking-wider">Акустический вакуум</span>
+                                <span className="text-[9px] uppercase tracking-wider leading-relaxed opacity-70">
+                    Обеспечьте полную тишину. Используйте наушники только для изоляции от внешнего шума.
+                </span>
+                            </div>
+                        </div>
+
+                        {/* НЕ БЕСПОКОИТЬ */}
+                        <div className="flex items-start gap-4 text-white/60 group">
+                            <div className="mt-0.5 p-1.5 bg-[#00ffcc]/5 border border-[#00ffcc]/10 rounded-[1px]">
+                                <Smartphone size={16} className="text-[#00ffcc] shrink-0" />
+                            </div>
+                            <div className="flex flex-col gap-1">
+                                <span className="text-[10px] text-white uppercase font-bold tracking-wider">Режим тишины</span>
+                                <span className="text-[9px] uppercase tracking-wider leading-relaxed opacity-70">
+                    Активируйте «Не беспокоить». Ничто не должно прерывать ход ваших мыслей.
+                </span>
+                            </div>
+                        </div>
+
+                        {/* ЗОЛОТОЙ ЧАС */}
+                        <div className="p-4 bg-[#00ffcc]/5 border border-[#00ffcc]/20 rounded-[1px] space-y-2 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-1 opacity-20">
+                                <Sparkles size={30} className="text-[#00ffcc]" />
+                            </div>
+                            <div className="flex items-center gap-2 text-[#00ffcc]">
+                                <span className="text-[9px] font-black uppercase tracking-[0.2em]">Окно восприятия</span>
+                            </div>
+                            <p className="text-[8px] text-white/50 leading-relaxed uppercase tracking-widest relative z-10">
+                                Оптимальное время: <span className="text-white">22:00 — 02:00</span>. Когда внешний мир затихает, погружение в «Нору» становится глубже.
                             </p>
                         </div>
-                        <div className="flex items-center gap-4 text-white/60">
-                            <Wind size={18} className="text-[#00ffcc] shrink-0" />
-                            <span className="text-[9px] uppercase tracking-wider leading-relaxed">Сделайте 3 глубоких вдоха перед стартом.</span>
+
+                        {/* ДЫХАНИЕ */}
+                        <div className="flex items-center gap-4 text-white/60 px-1">
+                            <Wind size={16} className="text-[#00ffcc]/40 shrink-0" />
+                            <span className="text-[9px] uppercase tracking-[0.2em] leading-relaxed italic">
+                Сделайте 3 глубоких вдоха перед началом...
+            </span>
                         </div>
                     </div>
-                    <button onClick={onCloseInstruction} className="w-full py-4 border border-[#00ffcc]/40 text-[#00ffcc] text-[10px] font-black uppercase tracking-[0.2em] active:bg-[#00ffcc]/10 transition-colors">
-                        Я всё понял(а)
+
+                    <button
+                        onClick={onCloseInstruction}
+                        className="w-full py-5 bg-[#00ffcc]/5 border border-[#00ffcc]/40 text-[#00ffcc] text-[10px] font-black uppercase tracking-[0.3em] active:bg-[#00ffcc]/20 transition-all rounded-[1px] hover:bg-[#00ffcc]/10"
+                    >
+                        Вернуться к активации
                     </button>
                 </div>
+
             )}
 
             {/* ОКНО ВЫХОДА */}
@@ -182,7 +232,7 @@ const DiveOverlays: React.FC<DiveOverlaysProps> = ({
                         <p className="text-[9px] text-white/30 uppercase tracking-widest">Прогресс текущей сессии будет сброшен</p>
                     </div>
                     <div className="space-y-3">
-                        <button onClick={onConfirmExit} className="w-full py-4 bg-white/5 border border-white/20 text-white/80 text-[10px] font-black uppercase tracking-[0.2em] active:scale-95 transition-all">
+                        <button onClick={onConfirmExit} className="w-full py-4 bg-white/5 border border-white/20 text-white/80 text-[10px] font-black uppercase tracking-[0.2em] active:scale-95 transition-all rounded-[1px]">
                             Завершить
                         </button>
                         <button onClick={onCancelExit} className="w-full py-2 text-zinc-600 text-[9px] font-bold uppercase tracking-[0.2em] active:text-zinc-400 transition-colors">

@@ -20,6 +20,7 @@ interface PaymentButtonProps {
 }
 
 const API_GATEWAY_URL = 'https://d5dq806nm470o5qb5rrm.z2ka767n.apigw.yandexcloud.net/create-payment';
+const SECURE_TOKEN = 'rh_secure_991_key';
 
 const PaymentButton: React.FC<PaymentButtonProps> = ({ amount, onSuccess, variant, show, onClose }) => {
     // Инициализация стейта: если есть активный платеж — идем в processing, иначе в idle
@@ -74,7 +75,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ amount, onSuccess, varian
             try {
                 const res = await fetch(API_GATEWAY_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'application/json', 'X-Custom-Token': SECURE_TOKEN },
                     body: JSON.stringify({ paymentId: pendingId })
                 });
 
@@ -107,11 +108,14 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ amount, onSuccess, varian
         try {
             const response = await fetch(API_GATEWAY_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Custom-Token': SECURE_TOKEN
+                },
                 body: JSON.stringify({
                     amount: amount.toString(),
                     email: email.toLowerCase().trim(),
-                    description: 'Активация протокола Изнанка'
+                    description: 'Доступ к цифровому контенту'
                 })
             });
 
